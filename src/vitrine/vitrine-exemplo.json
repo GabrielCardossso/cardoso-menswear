@@ -1,0 +1,362 @@
+{
+  "_aviso": "Dados de exemplo: preços, tamanhos e número do WhatsApp não são da loja.",
+  "categorias": [
+    {
+      "id": "c-camisetas",
+      "nome": "Camisetas",
+      "slug": "camisetas",
+      "grade": [
+        "P",
+        "M",
+        "G",
+        "GG",
+        "XG"
+      ],
+      "ordem": 1
+    },
+    {
+      "id": "c-polos",
+      "nome": "Polos",
+      "slug": "polos",
+      "grade": [
+        "P",
+        "M",
+        "G",
+        "GG",
+        "XG"
+      ],
+      "ordem": 2
+    },
+    {
+      "id": "c-bermudas",
+      "nome": "Bermudas",
+      "slug": "bermudas",
+      "grade": [
+        "P",
+        "M",
+        "G",
+        "GG",
+        "XG"
+      ],
+      "ordem": 3
+    },
+    {
+      "id": "c-calcas",
+      "nome": "Calças",
+      "slug": "calcas",
+      "grade": [
+        "36",
+        "38",
+        "40",
+        "42",
+        "44",
+        "46"
+      ],
+      "ordem": 4
+    },
+    {
+      "id": "c-tenis",
+      "nome": "Tênis",
+      "slug": "tenis",
+      "grade": [
+        "37",
+        "38",
+        "39",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44"
+      ],
+      "ordem": 5
+    }
+  ],
+  "pecas": [
+    {
+      "id": "p01",
+      "slug": "camisa-dry-fit-nk-preta",
+      "nome": "Camisa dry fit NK preta",
+      "descricao": "Tecido leve que seca rápido, faixa cinza na manga.",
+      "categoriaId": "c-camisetas",
+      "precoCentavos": 8990,
+      "fotos": [
+        "/exemplo/kit-1.jpg"
+      ],
+      "tamanhos": {
+        "P": false,
+        "M": true,
+        "G": true,
+        "GG": true,
+        "XG": false
+      },
+      "criadoEm": "2026-11-05T12:00:00Z"
+    },
+    {
+      "id": "p02",
+      "slug": "camisa-dry-fit-nk-branca",
+      "nome": "Camisa dry fit NK branca",
+      "descricao": "Tecido leve que seca rápido, faixa preta na manga.",
+      "categoriaId": "c-camisetas",
+      "precoCentavos": 8990,
+      "fotos": [
+        "/exemplo/kit-2.jpg"
+      ],
+      "tamanhos": {
+        "P": true,
+        "M": true,
+        "G": true,
+        "GG": false,
+        "XG": false
+      },
+      "criadoEm": "2026-11-05T12:00:00Z"
+    },
+    {
+      "id": "p03",
+      "slug": "bermuda-dry-fit-nk-preta",
+      "nome": "Bermuda dry fit NK preta",
+      "descricao": "Bermuda leve com elástico e cordão.",
+      "categoriaId": "c-bermudas",
+      "precoCentavos": 7990,
+      "fotos": [
+        "/exemplo/kit-1.jpg"
+      ],
+      "tamanhos": {
+        "P": false,
+        "M": true,
+        "G": true,
+        "GG": true,
+        "XG": false
+      },
+      "criadoEm": "2026-11-05T12:00:00Z"
+    },
+    {
+      "id": "p04",
+      "slug": "bermuda-dry-fit-nk-preta-e-branca",
+      "nome": "Bermuda dry fit NK preta e branca",
+      "descricao": "Recorte branco na lateral.",
+      "categoriaId": "c-bermudas",
+      "precoCentavos": 7990,
+      "fotos": [
+        "/exemplo/kit-2.jpg"
+      ],
+      "tamanhos": {
+        "P": true,
+        "M": true,
+        "G": true,
+        "GG": false,
+        "XG": false
+      },
+      "criadoEm": "2026-11-05T12:00:00Z"
+    },
+    {
+      "id": "p05",
+      "slug": "polo-piquet-nk-preta",
+      "nome": "Polo piquet NK preta",
+      "descricao": "Malha piquet, gola e punho canelados.",
+      "categoriaId": "c-polos",
+      "precoCentavos": 11990,
+      "fotos": [
+        "/exemplo/kit-3.jpg"
+      ],
+      "tamanhos": {
+        "P": false,
+        "M": true,
+        "G": true,
+        "GG": true,
+        "XG": false
+      },
+      "criadoEm": "2026-11-04T12:00:00Z"
+    },
+    {
+      "id": "p06",
+      "slug": "bermuda-moletom-nk-preta",
+      "nome": "Bermuda moletom NK preta",
+      "descricao": "Moletom leve, bolsos laterais.",
+      "categoriaId": "c-bermudas",
+      "precoCentavos": 8990,
+      "fotos": [
+        "/exemplo/kit-3.jpg"
+      ],
+      "tamanhos": {
+        "P": true,
+        "M": true,
+        "G": true,
+        "GG": true,
+        "XG": false
+      },
+      "criadoEm": "2026-11-04T12:00:00Z"
+    },
+    {
+      "id": "p07",
+      "slug": "polo-piquet-lc-preta",
+      "nome": "Polo piquet LC preta",
+      "descricao": "Malha piquet com bordado no peito.",
+      "categoriaId": "c-polos",
+      "precoCentavos": 12990,
+      "fotos": [
+        "/exemplo/kit-4.jpg"
+      ],
+      "tamanhos": {
+        "P": true,
+        "M": true,
+        "G": true,
+        "GG": false,
+        "XG": false
+      },
+      "criadoEm": "2026-11-04T12:00:00Z"
+    },
+    {
+      "id": "p08",
+      "slug": "bermuda-tactel-preta",
+      "nome": "Bermuda tactel preta",
+      "descricao": "Tactel com forro, seca rápido.",
+      "categoriaId": "c-bermudas",
+      "precoCentavos": 6990,
+      "fotos": [
+        "/exemplo/kit-4.jpg"
+      ],
+      "tamanhos": {
+        "P": false,
+        "M": true,
+        "G": true,
+        "GG": false,
+        "XG": false
+      },
+      "criadoEm": "2026-11-04T12:00:00Z"
+    },
+    {
+      "id": "p09",
+      "slug": "camiseta-ea7-branca",
+      "nome": "Camiseta EA7 branca",
+      "descricao": "Algodão com estampa no peito.",
+      "categoriaId": "c-camisetas",
+      "precoCentavos": 9990,
+      "fotos": [
+        "/exemplo/kit-5.jpg"
+      ],
+      "tamanhos": {
+        "P": false,
+        "M": true,
+        "G": true,
+        "GG": true,
+        "XG": true
+      },
+      "criadoEm": "2026-11-03T12:00:00Z"
+    },
+    {
+      "id": "p10",
+      "slug": "calca-jogador-preta",
+      "nome": "Calça jogador preta",
+      "descricao": "Calça com punho na barra.",
+      "categoriaId": "c-calcas",
+      "precoCentavos": 14990,
+      "fotos": [
+        "/exemplo/kit-5.jpg"
+      ],
+      "tamanhos": {
+        "36": false,
+        "38": true,
+        "40": true,
+        "42": true,
+        "44": false,
+        "46": false
+      },
+      "criadoEm": "2026-11-03T12:00:00Z"
+    },
+    {
+      "id": "p11",
+      "slug": "camiseta-basica-branca",
+      "nome": "Camiseta básica branca",
+      "descricao": "Algodão fio 30.1.",
+      "categoriaId": "c-camisetas",
+      "precoCentavos": 6990,
+      "fotos": [
+        "/exemplo/kit-6.jpg"
+      ],
+      "tamanhos": {
+        "P": false,
+        "M": true,
+        "G": true,
+        "GG": true,
+        "XG": false
+      },
+      "criadoEm": "2026-11-03T12:00:00Z"
+    },
+    {
+      "id": "p12",
+      "slug": "camisa-mizuno-preta",
+      "nome": "Camisa Mizuno preta",
+      "descricao": "Toda esgotada, para mostrar como a vitrine trata peça sem tamanho.",
+      "categoriaId": "c-camisetas",
+      "precoCentavos": 9990,
+      "fotos": [
+        "/exemplo/kit-3.jpg"
+      ],
+      "tamanhos": {
+        "P": false,
+        "M": false,
+        "G": false,
+        "GG": false,
+        "XG": false
+      },
+      "criadoEm": "2026-10-31T12:00:00Z"
+    }
+  ],
+  "kits": [
+    {
+      "id": "k01",
+      "slug": "dry-fit-nk-preta-e-bermuda",
+      "titulo": "Dry fit NK + bermuda",
+      "descricao": "Camisa dry fit e bermuda, tudo preto.",
+      "foto": "/exemplo/kit-1.jpg",
+      "pecaIds": [
+        "p01",
+        "p03"
+      ],
+      "ordem": 1
+    },
+    {
+      "id": "k02",
+      "slug": "dry-fit-nk-branca-e-bermuda",
+      "titulo": "Dry fit branca + bermuda",
+      "descricao": "",
+      "foto": "/exemplo/kit-2.jpg",
+      "pecaIds": [
+        "p02",
+        "p04"
+      ],
+      "ordem": 2
+    },
+    {
+      "id": "k03",
+      "slug": "polo-nk-e-bermuda-moletom",
+      "titulo": "Polo NK + moletom",
+      "descricao": "",
+      "foto": "/exemplo/kit-3.jpg",
+      "pecaIds": [
+        "p05",
+        "p06"
+      ],
+      "ordem": 3
+    },
+    {
+      "id": "k04",
+      "slug": "polo-lc-e-bermuda-tactel",
+      "titulo": "Polo LC + tactel",
+      "descricao": "",
+      "foto": "/exemplo/kit-4.jpg",
+      "pecaIds": [
+        "p07",
+        "p08"
+      ],
+      "ordem": 4
+    }
+  ],
+  "configuracoes": {
+    "lojaAberta": true,
+    "whatsappNumero": "5548999999999",
+    "instagramUrl": "https://www.instagram.com/cardoso.menswear/",
+    "grupoWhatsappUrl": "https://chat.whatsapp.com/Lb292xqGI3SEaiDwO9GjaJ",
+    "textoEntrega": "Entrega por motoboy em Capivari de Baixo e região · Enviamos para todo o Brasil"
+  }
+}
