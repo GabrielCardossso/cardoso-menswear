@@ -3,6 +3,7 @@ import { quantidadeDeItens } from '../sacola/regras';
 import { useSacola } from '../sacola/SacolaContext';
 import { useVitrine } from '../vitrine/VitrineContext';
 import Cabecalho from './Cabecalho';
+import FolhaSacola from './FolhaSacola';
 import Rodape from './Rodape';
 
 /** Moldura das páginas: espera a vitrine, mostra cabeçalho (se pedido), conteúdo e rodapé. */
@@ -33,6 +34,7 @@ export default function Layout({ cabecalho = 'sempre' }: { cabecalho?: 'sempre' 
         <>
           <Outlet />
           <Rodape />
+          <FolhaSacola />
         </>
       )}
     </div>
