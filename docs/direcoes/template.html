@@ -1,0 +1,281 @@
+<title>Cardoso Menswear: direções</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<style>
+/* Página de escolha: três colunas de direção, cada uma com duas telas de celular. */
+:root{
+  --bg:#F1F1EF; --fg:#111110; --muted:#61605C; --line:#D9D8D4; --card:#FFFFFF;
+  --f-display:'Anton','Impact',sans-serif;
+  --f-label:'Oswald','Arial Narrow',sans-serif;
+  --f-body:'Barlow',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#121211;--fg:#EDEDEA;--muted:#9C9A95;--line:#2B2A28;--card:#1B1A19;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121211;--fg:#EDEDEA;--muted:#9C9A95;--line:#2B2A28;--card:#1B1A19;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.5}
+.wrap{max-width:1320px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:grid;gap:10px;max-width:760px;margin-bottom:36px}
+.eyebrow{font-family:var(--f-label);text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,56px);line-height:1;margin:0;text-transform:uppercase;text-wrap:balance}
+.lead{color:var(--muted);margin:0;max-width:64ch}
+.dirs{display:grid;gap:48px}
+.dir{display:grid;gap:16px 40px;align-content:start;border-top:2px solid var(--fg);padding-top:18px;min-width:0}
+.dir .txt{display:grid;gap:14px;align-content:start;min-width:0}
+@media (min-width:960px){.dir{grid-template-columns:minmax(0,1fr) auto}}
+.dir h2{font-family:var(--f-display);font-weight:400;font-size:30px;line-height:1;margin:0;text-transform:uppercase;display:flex;gap:12px;align-items:baseline}
+.dir h2 b{font-family:var(--f-label);font-weight:600;font-size:14px;letter-spacing:.1em;color:var(--muted)}
+.dir p{margin:0;color:var(--muted);max-width:60ch}
+.spec{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:13px;color:var(--muted)}
+.sw{display:flex;gap:6px;align-items:center}
+.sw i{width:18px;height:18px;border-radius:50%;border:1px solid var(--line);display:inline-block}
+.phones{display:flex;gap:14px;flex-wrap:wrap}
+.phones{gap:20px}
+.phone{width:100%;aspect-ratio:9/18.5;border-radius:26px;overflow:hidden;position:relative;border:6px solid #050505;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.cap{font-size:12px;color:var(--muted);text-align:center;margin-top:6px}
+.ph-col{display:grid;width:280px;max-width:100%}
+.scr{position:absolute;inset:0;overflow:hidden;display:flex;flex-direction:column}
+img.ph{display:block;width:100%;height:100%;object-fit:cover}
+.price{font-variant-numeric:tabular-nums}
+
+/* ---------- A: Preto total ---------- */
+.a{background:#0A0A0A;color:#F2F2F0;font-family:'Barlow',sans-serif}
+.a .bar{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 8px}
+.a .bar img{height:30px}
+.a .bag{width:28px;height:28px;position:relative;color:#F2F2F0}.a .bag svg{display:block;width:100%;height:100%}
+.a .bag::after{content:"2";position:absolute;right:-6px;top:-4px;box-shadow:0 0 0 2px #0A0A0A;background:#F2F2F0;color:#0A0A0A;font:700 10px/16px 'Oswald';width:16px;text-align:center;border-radius:50%}
+.a .chips{display:flex;gap:6px;padding:4px 14px 10px;overflow:hidden}
+.a .chip{font:500 11px/1 'Oswald';text-transform:uppercase;letter-spacing:.08em;border:1px solid #3A3A38;padding:7px 10px;border-radius:999px;white-space:nowrap;color:#CFCFCB}
+.a .chip.on{background:#F2F2F0;color:#0A0A0A;border-color:#F2F2F0}
+.a .hero{margin:0 14px;position:relative;aspect-ratio:4/4.4;border-radius:4px;overflow:hidden}
+.a .hero .t{position:absolute;inset:auto 0 0 0;padding:40px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.a .lab{font:500 10px/1 'Oswald';letter-spacing:.16em;text-transform:uppercase;color:#BDBBB6}
+.a .hero h3{font:400 24px/1 'Anton';text-transform:uppercase;margin:6px 0 4px}
+.a .dots{display:flex;gap:4px;justify-content:center;padding:8px}
+.a .dots i{width:5px;height:5px;border-radius:50%;background:#444}.a .dots i:first-child{background:#F2F2F0;width:14px;border-radius:3px}
+.a .sec{display:flex;justify-content:space-between;padding:4px 14px 8px;font:400 16px/1 'Anton';text-transform:uppercase}
+.a .sec span{font:500 10px/1.6 'Oswald';letter-spacing:.12em;color:#8C8A86}
+.a .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px}
+.a .card .im{aspect-ratio:3/4;border-radius:3px;overflow:hidden}
+.a .card b{display:block;font:500 12px/1.25 'Barlow';margin-top:6px}
+.a .card .price{font:600 12px/1.4 'Oswald'}
+.a .pd .im{height:52%;position:relative}
+.a .pd .top{position:absolute;inset:0 0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 12px}.a .rnd{width:36px;height:36px;border-radius:50%;background:rgba(10,10,10,.62);display:grid;place-items:center;color:#F2F2F0}.a .rnd svg{width:20px;height:20px}.a .rnd .bag{width:22px;height:22px}.a .rnd .bag::after{right:-9px;top:-7px}.a .pd .im .n{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+.a .pd .im .n i{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.5)}.a .pd .im .n i:first-child{background:#fff}
+.a .pd .body{padding:12px 14px;display:grid;gap:8px}
+.a .pd h3{font:400 24px/1 'Anton';text-transform:uppercase;margin:0}
+.a .pd .price{font:600 18px/1 'Oswald'}
+.a .sizes{display:flex;gap:6px}
+.a .sz{width:38px;height:34px;display:grid;place-items:center;border:1px solid #3A3A38;font:600 13px 'Oswald';border-radius:3px}
+.a .sz.on{background:#F2F2F0;color:#0A0A0A;border-color:#F2F2F0}
+.a .sz.off{color:#4A4A48;text-decoration:line-through}
+.a .cta{margin:auto 14px 14px;background:#F2F2F0;color:#0A0A0A;text-align:center;font:600 13px/1 'Oswald';letter-spacing:.12em;text-transform:uppercase;padding:14px;border-radius:3px}
+.a .note{font-size:11px;color:#8C8A86}
+
+/* ---------- B: Etiqueta ---------- */
+.b{background:#EEEEEC;color:#0A0A0A;font-family:'Instrument Sans',sans-serif}
+.b .bar{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #D2D2CE}
+.b .bar img{height:28px}
+.b .menu{width:18px;height:12px;border-block:2px solid #0A0A0A;position:relative}.b .menu::after{content:"";position:absolute;left:0;right:0;top:3px;border-top:2px solid #0A0A0A}
+.b .bagt{font:600 11px/1 'Oswald';letter-spacing:.1em}
+.b .strip{white-space:nowrap;background:#0A0A0A;color:#EEEEEC;font:500 9.5px/1 'Oswald';letter-spacing:.14em;text-transform:uppercase;padding:7px 14px;display:flex;justify-content:space-between}
+.b .kit{margin:14px;background:#fff;display:grid;grid-template-columns:44% 1fr;border:1px solid #D2D2CE}
+.b .kit .im{aspect-ratio:3/4}
+.b .kit .t{padding:12px 10px;display:grid;align-content:space-between;gap:8px}
+.b .tagl{font:500 9.5px/1 'Oswald';letter-spacing:.16em;text-transform:uppercase;display:flex;gap:6px;align-items:center}
+.b .tagl::before{content:"";width:7px;height:7px;border:1.5px solid #0A0A0A;transform:rotate(45deg)}
+.b .kit h3{font:600 17px/1.05 'Oswald';text-transform:uppercase;margin:0}
+.b .kit ul{margin:0;padding:0;list-style:none;font-size:11px;color:#55544F;display:grid;gap:3px}
+.b .kit .price{font:600 14px 'Oswald'}
+.b .link{font:600 10.5px/1 'Oswald';letter-spacing:.12em;text-transform:uppercase;border-bottom:1.5px solid #0A0A0A;justify-self:start;padding-bottom:3px}
+.b .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#D2D2CE;margin:0 14px;border:1px solid #D2D2CE}
+.b .cats div{background:#EEEEEC;font:500 11px/1 'Oswald';letter-spacing:.1em;text-transform:uppercase;padding:11px 0;text-align:center}
+.b .sec{padding:14px 14px 8px;font:600 13px/1 'Oswald';letter-spacing:.12em;text-transform:uppercase}
+.b .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px}
+.b .card .im{aspect-ratio:1/1.1;background:#fff;position:relative}
+.b .card .hang{position:absolute;right:6px;top:6px;background:#fff;font:600 11px/1 'Oswald';padding:5px 6px 5px 12px;clip-path:polygon(8px 0,100% 0,100% 100%,8px 100%,0 50%)}
+.b .card b{display:block;font:500 11.5px/1.25 'Instrument Sans';margin-top:6px}
+.b .card small{font-size:10px;color:#6B6A66;letter-spacing:.06em}
+.b .pd .im{height:40%;background:#fff}
+.b .pd .body{padding:14px;display:grid;gap:10px}
+.b .pd .row{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.b .pd h3{font:600 20px/1.05 'Oswald';text-transform:uppercase;margin:0}
+.b .tag{background:#fff;border:1px solid #0A0A0A;padding:6px 8px 6px 18px;font:600 15px/1 'Oswald';position:relative;clip-path:polygon(10px 0,100% 0,100% 100%,10px 100%,0 50%)}
+.b .tag::before{content:"";position:absolute;left:8px;top:50%;width:5px;height:5px;border:1.5px solid #0A0A0A;border-radius:50%;transform:translateY(-50%)}
+.b .desc{font-size:11.5px;color:#55544F;margin:0}
+.b .sizes{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid #0A0A0A}
+.b .sz{padding:9px 0;text-align:center;font:600 12px 'Oswald';border-right:1px solid #0A0A0A}.b .sz:last-child{border-right:0}
+.b .sz.on{background:#0A0A0A;color:#EEEEEC}
+.b .sz.off{color:#A9A8A3;background:repeating-linear-gradient(-45deg,transparent 0 5px,#DCDCD8 5px 6px)}
+.b .cta{margin:auto 14px 14px;background:#0A0A0A;color:#EEEEEC;display:flex;justify-content:space-between;font:600 12px/1 'Oswald';letter-spacing:.12em;text-transform:uppercase;padding:14px}
+
+/* ---------- C: Carpete ---------- */
+.c{color:#F4F2EE;font-family:'Barlow Condensed',sans-serif;background:#4A4540}
+.c .tex{position:absolute;inset:0;background-size:cover;filter:saturate(.6) brightness(.55)}
+.c .scr>*{position:relative}
+.c .prog{display:flex;gap:3px;padding:10px 12px 0}
+.c .prog i{flex:1;height:2px;background:rgba(255,255,255,.35)}.c .prog i:first-child{background:#fff}
+.c .bar{display:flex;justify-content:space-between;align-items:center;padding:10px 12px}
+.c .bar img{height:24px}
+.c .bar span{font:600 12px/1 'Barlow Condensed';letter-spacing:.12em;text-transform:uppercase}
+.c .story{margin:4px 12px 0;flex:1;border-radius:14px;overflow:hidden;position:relative}
+.c .story .t{position:absolute;inset:auto 0 0;padding:60px 14px 14px;background:linear-gradient(transparent,rgba(20,18,16,.92))}
+.c .big{font:400 40px/.9 'Anton';text-transform:uppercase;margin:0;color:#FFFFFF}
+.c .lst{font:500 13px/1.35 'Barlow Condensed';text-transform:uppercase;letter-spacing:.04em;margin:8px 0 10px;color:#DAD6CF}
+.c .row{display:flex;justify-content:space-between;align-items:center}
+.c .pill{background:#F4F2EE;color:#1B1917;font:700 12px/1 'Barlow Condensed';letter-spacing:.1em;text-transform:uppercase;padding:10px 14px;border-radius:999px}
+.c .price{font:700 20px/1 'Barlow Condensed';white-space:nowrap}
+.c .cats{display:flex;gap:8px;padding:12px;overflow:hidden}
+.c .cats div{flex:none;width:58px;display:grid;justify-items:center;gap:4px;font:600 10px/1 'Barlow Condensed';letter-spacing:.08em;text-transform:uppercase}
+.c .cats div i{width:50px;height:50px;border-radius:50%;border:2px solid #F4F2EE;overflow:hidden;display:block}
+.c .pd{background:#1B1917}
+.c .pd .im{height:50%;position:relative}
+.c .pd .im .back{position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center;font:600 16px 'Barlow'}
+.c .pd .body{padding:14px;display:grid;gap:10px}
+.c .pd h3{font:400 30px/.92 'Anton';text-transform:uppercase;margin:0}
+.c .sizes{display:flex;gap:6px;flex-wrap:wrap}
+.c .sz{min-width:40px;padding:9px 0;text-align:center;border-radius:999px;border:1.5px solid #5D5852;font:700 13px/1 'Barlow Condensed'}
+.c .sz.on{background:#F4F2EE;color:#1B1917;border-color:#F4F2EE}
+.c .sz.off{color:#5D5852;text-decoration:line-through}
+.c .inkit{display:flex;gap:8px;align-items:center;background:#2A2724;border-radius:12px;padding:6px}
+.c .inkit i{width:38px;height:38px;border-radius:8px;overflow:hidden;display:block;flex:none}
+.c .inkit span{font:600 12px/1.2 'Barlow Condensed';text-transform:uppercase;letter-spacing:.04em}
+.c .cta{margin:auto 14px 14px;background:#F4F2EE;color:#1B1917;text-align:center;font:700 14px/1 'Barlow Condensed';letter-spacing:.12em;text-transform:uppercase;padding:14px;border-radius:999px}
+
+.foot{margin-top:40px;display:grid;gap:8px;max-width:760px;color:var(--muted);font-size:14px}
+.foot strong{color:var(--fg)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">Cardoso Menswear · vitrine e pedidos</div>
+    <h1>Três direções para o site</h1>
+    <p class="lead">Cada direção mostra o início e a página de uma peça no celular, com as fotos reais dos kits do Instagram. Estrutura e fluxo são os mesmos nas três; muda a cara. Dá para pegar uma inteira ou misturar partes.</p>
+  </header>
+
+  <div class="dirs">
+
+    <!-- A -->
+    <section class="dir">
+      <div class="txt"><h2>Preto total <b>A</b></h2>
+      <p>A continuação do Instagram: fundo preto, logo branca, fotos em grade. Os kits abrem o início num carrossel grande. Sóbrio, e quem chega pelo perfil reconhece na hora.</p>
+      <div class="spec">
+        <span class="sw"><i style="background:#0A0A0A"></i>Preto</span>
+        <span class="sw"><i style="background:#F2F2F0"></i>Branco</span>
+        <span class="sw"><i style="background:#8C8A86"></i>Cinza carpete</span>
+        <span>Anton · Oswald · Barlow</span>
+      </div></div>
+      <div class="phones">
+        <div class="ph-col"><div class="phone a"><div class="scr">
+          <div class="bar"><img src="{{NOME_BRANCO}}" alt="Cardoso Menswear"><div class="bag" aria-label="Sacola, 2 itens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4.6 8.2h14.8l-1.3 12a1.6 1.6 0 0 1-1.6 1.4H7.5a1.6 1.6 0 0 1-1.6-1.4Z"/><path d="M8.8 10.6V6.8a3.2 3.2 0 0 1 6.4 0v3.8"/></svg></div></div>
+          <div class="chips"><span class="chip on">Kits</span><span class="chip">Camisetas</span><span class="chip">Polos</span><span class="chip">Bermudas</span></div>
+          <div class="hero"><img class="ph" src="{{KIT1}}" alt=""><div class="t"><div class="lab">Sugestão de kit</div><h3>Dry fit NK + bermuda</h3><div class="price">2 peças · R$ 169,80</div></div></div>
+          <div class="dots"><i></i><i></i><i></i><i></i></div>
+          <div class="sec">Chegou agora <span>Ver tudo</span></div>
+          <div class="grid">
+            <div class="card"><div class="im"><img class="ph" src="{{KIT3}}" alt=""></div><b>Polo piquet NK</b><div class="price">R$ 119,90</div></div>
+            <div class="card"><div class="im"><img class="ph" src="{{KIT5}}" alt=""></div><b>Camiseta EA7</b><div class="price">R$ 99,90</div></div>
+          </div>
+        </div></div><div class="cap">Início</div></div>
+        <div class="ph-col"><div class="phone a"><div class="scr pd">
+          <div class="im"><img class="ph" src="{{KIT2}}" alt=""><div class="n"><i></i><i></i><i></i></div><div class="top"><span class="rnd" aria-label="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></span><span class="rnd"><div class="bag" aria-label="Sacola, 2 itens"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4.6 8.2h14.8l-1.3 12a1.6 1.6 0 0 1-1.6 1.4H7.5a1.6 1.6 0 0 1-1.6-1.4Z"/><path d="M8.8 10.6V6.8a3.2 3.2 0 0 1 6.4 0v3.8"/></svg></div></span></div></div>
+          <div class="body">
+            <div class="lab">Camisetas</div>
+            <h3>Camisa dry fit NK branca</h3>
+            <div class="price">R$ 89,90</div>
+            <div class="sizes"><span class="sz">P</span><span class="sz on">M</span><span class="sz">G</span><span class="sz off">GG</span></div>
+            <div class="note">Faz parte do kit “Dry fit + bermuda”</div>
+          </div>
+          <div class="cta">Adicionar à sacola</div>
+        </div></div><div class="cap">Peça</div></div>
+      </div>
+    </section>
+
+    <!-- B -->
+    <section class="dir">
+      <div class="txt"><h2>Etiqueta <b>B</b></h2>
+      <p>Clara e organizada como loja de rua: fundo claro, tinta preta, e o preço numa etiqueta de roupa com furo. O losango da logo vira marcador. As fotos de carpete se destacam no fundo limpo.</p>
+      <div class="spec">
+        <span class="sw"><i style="background:#EEEEEC"></i>Papel</span>
+        <span class="sw"><i style="background:#0A0A0A"></i>Tinta</span>
+        <span class="sw"><i style="background:#FFFFFF"></i>Etiqueta</span>
+        <span>Oswald · Instrument Sans</span>
+      </div></div>
+      <div class="phones">
+        <div class="ph-col"><div class="phone b"><div class="scr">
+          <div class="bar"><div class="menu"></div><img src="{{NOME_PRETO}}" alt="Cardoso Menswear"><span class="bagt">SACOLA 2</span></div>
+          <div class="strip"><span>Motoboy · Capivari e região</span><span>Envio Brasil</span></div>
+          <div class="kit"><div class="im"><img class="ph" src="{{KIT1}}" alt=""></div><div class="t">
+            <div class="tagl">Sugestão de kit</div>
+            <h3>Dry fit NK + bermuda</h3>
+            <ul><li>Camisa dry fit NK</li><li>Bermuda NK</li></ul>
+            <div class="price">R$ 169,80</div>
+            <span class="link">Montar o kit</span>
+          </div></div>
+          <div class="cats"><div>Camisetas</div><div>Polos</div><div>Bermudas</div><div>Calças</div><div>Tênis</div><div>Kits</div></div>
+          <div class="sec">Chegou agora</div>
+          <div class="grid">
+            <div class="card"><div class="im"><img class="ph" src="{{KIT4}}" alt=""><span class="hang price">R$ 129,90</span></div><b>Polo piquet LC</b><small>P · M · G</small></div>
+            <div class="card"><div class="im"><img class="ph" src="{{KIT6}}" alt=""><span class="hang price">R$ 89,90</span></div><b>Camiseta básica</b><small>M · G · GG</small></div>
+          </div>
+        </div></div><div class="cap">Início</div></div>
+        <div class="ph-col"><div class="phone b"><div class="scr pd">
+          <div class="bar"><span class="bagt">← VOLTAR</span><img src="{{NOME_PRETO}}" alt="Cardoso Menswear"><span class="bagt">2</span></div>
+          <div class="im"><img class="ph" src="{{KIT2}}" alt=""></div>
+          <div class="body">
+            <div class="row"><h3>Camisa dry fit NK branca</h3><span class="tag price">R$ 89,90</span></div>
+            <p class="desc">Tecido leve que seca rápido, faixa preta na manga.</p>
+            <div class="sizes"><span class="sz">P</span><span class="sz on">M</span><span class="sz">G</span><span class="sz off">GG</span><span class="sz off">XG</span></div>
+          </div>
+          <div class="cta"><span>Adicionar à sacola</span><span class="price">R$ 89,90</span></div>
+        </div></div><div class="cap">Peça</div></div>
+      </div>
+    </section>
+
+    <!-- C -->
+    <section class="dir">
+      <div class="txt"><h2>Carpete <b>C</b></h2>
+      <p>O carpete cinza das fotos vira a superfície da marca. O início abre com os kits como stories, uma tela por kit e um toque para montar. Mais ousado, e é o que mais lembra o feed.</p>
+      <div class="spec">
+        <span class="sw"><i style="background:#4A4540"></i>Carpete</span>
+        <span class="sw"><i style="background:#1B1917"></i>Grafite</span>
+        <span class="sw"><i style="background:#F4F2EE"></i>Giz</span>
+        <span>Anton · Barlow Condensed</span>
+      </div></div>
+      <div class="phones">
+        <div class="ph-col"><div class="phone c"><div class="scr">
+          <div class="tex" style="background-image:url({{CARPETE}})"></div>
+          <div class="prog"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="bar"><img src="{{NOME_BRANCO}}" alt="Cardoso Menswear"><span>Sacola 2</span></div>
+          <div class="story"><img class="ph" src="{{KIT3}}" alt=""><div class="t">
+            <p class="big">Kit polo<br>preta</p>
+            <div class="lst">Polo piquet NK · Bermuda NK</div>
+            <div class="row"><span class="price">R$ 199,80</span><span class="pill">Montar kit</span></div>
+          </div></div>
+          <div class="cats">
+            <div><i><img class="ph" src="{{KIT5}}" alt=""></i>Camisetas</div>
+            <div><i><img class="ph" src="{{KIT4}}" alt=""></i>Polos</div>
+            <div><i><img class="ph" src="{{KIT1}}" alt=""></i>Bermudas</div>
+            <div><i><img class="ph" src="{{KIT6}}" alt=""></i>Calças</div>
+          </div>
+        </div></div><div class="cap">Início</div></div>
+        <div class="ph-col"><div class="phone c"><div class="scr pd">
+          <div class="im"><img class="ph" src="{{KIT2}}" alt=""><span class="back">←</span></div>
+          <div class="body">
+            <h3>Dry fit NK branca</h3>
+            <div class="row"><span class="price">R$ 89,90</span><span style="font:600 11px 'Barlow Condensed';letter-spacing:.1em;color:#A8A39B">CAMISETAS</span></div>
+            <div class="sizes"><span class="sz">P</span><span class="sz on">M</span><span class="sz">G</span><span class="sz off">GG</span></div>
+            <div class="inkit"><i><img class="ph" src="{{KIT1}}" alt=""></i><span>Também no kit<br>Dry fit + bermuda</span></div>
+          </div>
+          <div class="cta">Adicionar à sacola</div>
+        </div></div><div class="cap">Peça</div></div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="foot">
+    <p><strong>Igual nas três:</strong> sacola que sobe do rodapé, finalizar com nome e entrega, e a mensagem pronta no WhatsApp do Gustavo. Preços e nomes nas telas são exemplos; as fotos são do Instagram da loja.</p>
+  </div>
+</div>
