@@ -3,6 +3,7 @@ import Layout from './components/Layout';
 import Inicio from './pages/Inicio';
 import NaoEncontrado from './pages/NaoEncontrado';
 import Categoria, { Novidades } from './pages/Categoria';
+import Finalizar from './pages/Finalizar';
 import Kits from './pages/Kits';
 import Peca from './pages/Peca';
 import Kit from './pages/Kit';
@@ -18,6 +19,7 @@ export function Rotas() {
         <Route path="c/:slug" element={<Categoria />} />
         <Route path="kits" element={<Kits />} />
         <Route path="novidades" element={<Novidades />} />
+        <Route path="finalizar" element={<Finalizar />} />
         <Route path="*" element={<NaoEncontrado />} />
       </Route>
       <Route element={<Layout cabecalho="desktop" />}>
