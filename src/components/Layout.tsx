@@ -6,13 +6,16 @@ import Cabecalho from './Cabecalho';
 import Rodape from './Rodape';
 
 /** Moldura das páginas: espera a vitrine, mostra cabeçalho (se pedido), conteúdo e rodapé. */
-export default function Layout({ comCabecalho = true }: { comCabecalho?: boolean }) {
+/** `cabecalho="desktop"`: no celular a página mostra seus próprios botões sobre a foto. */
+export default function Layout({ cabecalho = 'sempre' }: { cabecalho?: 'sempre' | 'desktop' }) {
   const estado = useVitrine();
   const { sacola, abrir } = useSacola();
 
   return (
     <div className="mx-auto min-h-dvh max-w-[1200px]">
-      {comCabecalho && <Cabecalho quantidade={quantidadeDeItens(sacola)} onAbrirSacola={abrir} />}
+      <div className={cabecalho === 'desktop' ? 'hidden lg:block' : undefined}>
+        <Cabecalho quantidade={quantidadeDeItens(sacola)} onAbrirSacola={abrir} />
+      </div>
       {estado.estado === 'carregando' && <Esqueleto />}
       {estado.estado === 'erro' && (
         <main className="grid gap-4 px-4 py-16 text-center">

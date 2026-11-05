@@ -11,10 +11,11 @@ export function fonteDe(v: Vitrine = vitrineDeTeste()): FonteVitrine & { carrega
   return { carregar: vi.fn(async () => structuredClone(v)) };
 }
 
-/** Monta o app inteiro (rotas + provedores) começando em `caminho`. */
-export function renderizarApp(caminho: string, fonte: FonteVitrine = fonteDe()) {
+/** Monta o app inteiro (rotas + provedores). Com uma lista, as anteriores viram o histórico e abre na última. */
+export function renderizarApp(caminho: string | string[], fonte: FonteVitrine = fonteDe()) {
+  const entradas = Array.isArray(caminho) ? caminho : [caminho];
   return render(
-    <MemoryRouter initialEntries={[caminho]}>
+    <MemoryRouter initialEntries={entradas} initialIndex={entradas.length - 1}>
       <VitrineProvider fonte={fonte}>
         <SacolaProvider>
           <Rotas />

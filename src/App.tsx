@@ -4,7 +4,8 @@ import Inicio from './pages/Inicio';
 import NaoEncontrado from './pages/NaoEncontrado';
 import Categoria, { Novidades } from './pages/Categoria';
 import Kits from './pages/Kits';
-import { KitProvisorio, PecaProvisoria } from './pages/Provisorias';
+import Peca from './pages/Peca';
+import { KitProvisorio } from './pages/Provisorias';
 import { SacolaProvider } from './sacola/SacolaContext';
 import { fonteLocal } from './vitrine/fonteLocal';
 import { VitrineProvider } from './vitrine/VitrineContext';
@@ -20,8 +21,8 @@ export function Rotas() {
         <Route path="k/:slug" element={<KitProvisorio />} />
         <Route path="*" element={<NaoEncontrado />} />
       </Route>
-      <Route element={<Layout comCabecalho={false} />}>
-        <Route path="p/:slug" element={<PecaProvisoria />} />
+      <Route element={<Layout cabecalho="desktop" />}>
+        <Route path="p/:slug" element={<Peca />} />
       </Route>
     </Routes>
   );
