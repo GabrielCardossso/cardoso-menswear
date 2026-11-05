@@ -23,8 +23,9 @@ export function kit(id: string, pecaIds: string[], extra: Partial<Kit> = {}): Ki
   return { id, slug: id, titulo: `Kit ${id}`, descricao: '', foto: `/exemplo/${id}.jpg`, pecaIds, ordem: 1, ...extra };
 }
 
+/** Cópia nova a cada chamada: os testes podem mudar à vontade. */
 export function vitrineDeTeste(): Vitrine {
-  return {
+  return structuredClone({
     categorias: [catBermuda, catRoupa],
     pecas: [
       peca('a', { nome: 'Camisa dry fit NK', criadoEm: '2026-11-03T10:00:00Z' }),
@@ -44,5 +45,5 @@ export function vitrineDeTeste(): Vitrine {
       grupoWhatsappUrl: 'https://chat.whatsapp.com/exemplo',
       textoEntrega: 'Entrega por motoboy em Capivari de Baixo e região · Enviamos para todo o Brasil',
     },
-  };
+  });
 }
