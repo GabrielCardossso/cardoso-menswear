@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 import CarrosselKits from '../components/CarrosselKits';
-import CartaoPeca from '../components/CartaoPeca';
+import GradePecas from '../components/GradePecas';
 import PilulasCategorias from '../components/PilulasCategorias';
-import { categoriaDaPeca, chegouAgora } from '../vitrine/consultas';
+import { chegouAgora } from '../vitrine/consultas';
 import { useVitrinePronta } from '../vitrine/VitrineContext';
 
 export default function Inicio() {
@@ -20,11 +20,7 @@ export default function Inicio() {
               Ver tudo
             </Link>
           </div>
-          <ul className="grid grid-cols-2 gap-x-2 gap-y-4 lg:grid-cols-4">
-            {novas.map((p) => (
-              <li key={p.id}><CartaoPeca peca={p} categoria={categoriaDaPeca(vitrine, p)} /></li>
-            ))}
-          </ul>
+          <GradePecas pecas={novas} rotulo="Chegou agora" />
         </section>
       )}
     </main>

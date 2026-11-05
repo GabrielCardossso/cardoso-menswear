@@ -2,7 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import Layout from './components/Layout';
 import Inicio from './pages/Inicio';
 import NaoEncontrado from './pages/NaoEncontrado';
-import { CategoriaProvisoria, KitProvisorio, PecaProvisoria } from './pages/Provisorias';
+import Categoria, { Novidades } from './pages/Categoria';
+import Kits from './pages/Kits';
+import { KitProvisorio, PecaProvisoria } from './pages/Provisorias';
 import { SacolaProvider } from './sacola/SacolaContext';
 import { fonteLocal } from './vitrine/fonteLocal';
 import { VitrineProvider } from './vitrine/VitrineContext';
@@ -12,7 +14,9 @@ export function Rotas() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Inicio />} />
-        <Route path="c/:slug" element={<CategoriaProvisoria />} />
+        <Route path="c/:slug" element={<Categoria />} />
+        <Route path="kits" element={<Kits />} />
+        <Route path="novidades" element={<Novidades />} />
         <Route path="k/:slug" element={<KitProvisorio />} />
         <Route path="*" element={<NaoEncontrado />} />
       </Route>
