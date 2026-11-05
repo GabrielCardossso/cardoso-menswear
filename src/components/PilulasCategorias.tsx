@@ -9,7 +9,7 @@ export default function PilulasCategorias({ ativa }: { ativa?: string }) {
     ...[...vitrine.categorias].sort((a, b) => a.ordem - b.ordem).map((c) => ({ chave: c.slug, nome: c.nome, para: `/c/${c.slug}` })),
   ];
   return (
-    <nav aria-label="Categorias" className="-mx-4 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <nav aria-label="Categorias" className="-mx-4 overflow-x-auto px-4 pb-1 md:-mx-8 md:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <ul className="flex gap-1.5">
         {itens.map((i) => {
           const atual = i.chave === ativa;

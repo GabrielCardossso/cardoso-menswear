@@ -6,7 +6,7 @@ type Props = { quantidade: number; onAbrirSacola: () => void };
 
 export default function Cabecalho({ quantidade, onAbrirSacola }: Props) {
   return (
-    <header className="flex items-center justify-between px-4 pt-[max(12px,env(safe-area-inset-top))] pb-2">
+    <header className="flex items-center justify-between px-4 md:px-8 pt-[max(12px,env(safe-area-inset-top))] pb-2">
       <Link to="/" className="flex">
         <img src={logo} alt="Cardoso Menswear" className="h-[30px] w-auto" />
       </Link>

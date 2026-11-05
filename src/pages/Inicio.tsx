@@ -9,7 +9,7 @@ export default function Inicio() {
   const { vitrine } = useVitrinePronta();
   const novas = chegouAgora(vitrine);
   return (
-    <main className="grid gap-3 px-4">
+    <main className="grid gap-3 px-4 md:gap-5 md:px-8">
       <PilulasCategorias />
       <CarrosselKits />
       {novas.length > 0 && (

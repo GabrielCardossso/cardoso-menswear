@@ -16,7 +16,7 @@ export default function Categoria() {
   const pecas = pecasDaCategoria(vitrine, slug);
   if (!cat || !pecas) return <NaoEncontrado />;
   return (
-    <main className="grid gap-4 px-4">
+    <main className="grid gap-4 px-4 md:px-8">
       <PilulasCategorias ativa={cat.slug} />
       <Titulo>{cat.nome}</Titulo>
       {pecas.length > 0 ? <GradePecas pecas={pecas} /> : <p className="text-carpete">Nenhuma peça nesta categoria por enquanto.</p>}
@@ -30,7 +30,7 @@ export function Novidades() {
   const recentes = [...vitrine.pecas].sort((a, b) => b.criadoEm.localeCompare(a.criadoEm));
   const pecas = [...recentes.filter((p) => !esgotadaNaVitrine(vitrine, p)), ...recentes.filter((p) => esgotadaNaVitrine(vitrine, p))];
   return (
-    <main className="grid gap-4 px-4">
+    <main className="grid gap-4 px-4 md:px-8">
       <PilulasCategorias />
       <Titulo>Novidades</Titulo>
       <GradePecas pecas={pecas} />
