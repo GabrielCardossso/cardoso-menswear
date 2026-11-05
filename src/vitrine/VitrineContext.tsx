@@ -40,3 +40,10 @@ export function useVitrine(): EstadoVitrine {
   if (!v) throw new Error('useVitrine fora do VitrineProvider');
   return v;
 }
+
+/** Para as páginas, que só aparecem depois que o Layout viu a vitrine pronta. */
+export function useVitrinePronta() {
+  const v = useVitrine();
+  if (v.estado !== 'pronto') throw new Error('vitrine ainda não carregou');
+  return v;
+}
