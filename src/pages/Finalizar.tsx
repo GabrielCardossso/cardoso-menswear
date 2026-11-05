@@ -1,8 +1,8 @@
-import { useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { Navigate, useNavigate } from 'react-router';
 import { formatarReais } from '../lib/dinheiro';
 import { abrirLink } from '../lib/navegador';
-import { conferirSacola } from '../pedido/conferencia';
+import { conferirSacola, type ResultadoConferencia } from '../pedido/conferencia';
 import {
   linkWhatsApp, montarMensagem, validarFinalizacao, type CamposFinalizacao, type DadosDoPedido, type ErrosFinalizacao,
 } from '../pedido/mensagem';
@@ -23,7 +23,7 @@ const botaoSecundario = 'w-full border border-branco py-4 font-rotulo text-sm fo
 const AVISO_PAUSADA = 'Pedidos pausados no momento. Fale com a gente no Instagram.';
 
 export default function Finalizar() {
-  const { vitrine, recarregar } = useVitrinePronta();
+  const { vitrine, carregadaEm, recarregar } = useVitrinePronta();
   const { sacola, substituir, esvaziar } = useSacola();
   const navigate = useNavigate();
   const [campos, setCampos] = useState<CamposFinalizacao>(vazio);
@@ -31,8 +31,20 @@ export default function Finalizar() {
   const [fase, setFase] = useState<Fase>({ tipo: 'formulario' });
   const [enviando, setEnviando] = useState(false);
   const [copiado, setCopiado] = useState(false);
-  const [abertoEm] = useState(() => new Date());
+  const [tentativa, setTentativa] = useState(0);
   const blocoMensagem = useRef<HTMLPreElement>(null);
+  const tituloFase = useRef<HTMLElement>(null);
+
+  // Acessibilidade: com erro, foco no primeiro campo inválido; ao trocar de fase, foco no título da nova seção.
+  useEffect(() => {
+    if (tentativa === 0) return;
+    const ordem: [keyof ErrosFinalizacao, string][] = [['nome', 'nome'], ['tipo', 'entrega-motoboy'], ['bairro', 'bairro'], ['cep', 'cep'], ['cidade', 'cidade']];
+    const primeiro = ordem.find(([campo]) => erros[campo]);
+    if (primeiro) document.getElementById(primeiro[1])?.focus();
+  }, [tentativa, erros]);
+  useEffect(() => {
+    if (fase.tipo !== 'formulario') tituloFase.current?.focus();
+  }, [fase.tipo]);
 
   if (sacola.itens.length === 0 && fase.tipo === 'formulario') return <Navigate to="/" replace />;
 
@@ -47,24 +59,29 @@ export default function Finalizar() {
   async function aoEnviar(e: FormEvent) {
     e.preventDefault();
     const r = validarFinalizacao(campos);
+    setTentativa((t) => t + 1);
     if (!r.ok) return setErros(r.erros);
     setErros({});
     setEnviando(true);
+    const agora = new Date().toISOString();
     try {
       const atual = await recarregar();
-      const c = conferirSacola(sacola, atual, new Date().toISOString());
-      if (!c.lojaAberta) return setFase({ tipo: 'pausada' });
-      if (c.mudancas.length > 0) {
-        substituir(c.sacola);
-        return setFase({ tipo: 'mudancas', mudancas: c.mudancas, dados: r.dados });
-      }
-      enviarAgora(sacola, r.dados, atual.configuracoes.whatsappNumero);
+      seguir(conferirSacola(sacola, atual, agora), r.dados, atual.configuracoes.whatsappNumero);
     } catch {
-      // Sem rede: envia com os preços guardados, avisando o Gustavo de quando eles são.
-      enviarAgora(sacola, { ...r.dados, conferidoEm: abertoEm });
+      // Sem rede: confere contra a vitrine já carregada e avisa o Gustavo de quando ela é.
+      seguir(conferirSacola(sacola, vitrine, agora), { ...r.dados, conferidoEm: carregadaEm }, vitrine.configuracoes.whatsappNumero);
     } finally {
       setEnviando(false);
     }
+  }
+
+  function seguir(c: ResultadoConferencia, dados: DadosDoPedido, numero: string) {
+    if (!c.lojaAberta) return setFase({ tipo: 'pausada' });
+    if (c.mudancas.length > 0) {
+      substituir(c.sacola);
+      return setFase({ tipo: 'mudancas', mudancas: c.mudancas, dados });
+    }
+    enviarAgora(c.sacola, dados, numero);
   }
 
   function copiar(mensagem: string) {
@@ -88,7 +105,8 @@ export default function Finalizar() {
       <h1 className="font-titulo text-3xl leading-none uppercase md:text-4xl">Finalizar pedido</h1>
 
       {fase.tipo === 'enviado' && (
-        <section className="grid gap-4">
+        <section className="grid gap-4" aria-labelledby="titulo-enviado">
+          <h2 id="titulo-enviado" ref={(el) => { tituloFase.current = el; }} tabIndex={-1} className="font-titulo text-2xl uppercase focus:outline-none">Pedido enviado</h2>
           <p>Pedido enviado para o WhatsApp? Se não abriu, copie a mensagem.</p>
           <pre ref={blocoMensagem} className="overflow-x-auto border border-linha p-3 font-texto text-sm whitespace-pre-wrap select-all">{fase.mensagem}</pre>
           <button type="button" className={botaoPrincipal} onClick={() => copiar(fase.mensagem)}>Copiar mensagem</button>
@@ -98,7 +116,7 @@ export default function Finalizar() {
       )}
 
       {fase.tipo === 'pausada' && (
-        <p role="alert" className="border border-linha p-4">
+        <p role="alert" ref={(el) => { tituloFase.current = el; }} tabIndex={-1} className="border border-linha p-4 focus:outline-none">
           {AVISO_PAUSADA}{' '}
           <a href={vitrine.configuracoes.instagramUrl} target="_blank" rel="noreferrer" className="underline underline-offset-4">Instagram</a>
         </p>
@@ -106,7 +124,7 @@ export default function Finalizar() {
 
       {fase.tipo === 'mudancas' && (
         <section className="grid gap-4" aria-labelledby="titulo-mudancas">
-          <h2 id="titulo-mudancas" className="font-titulo text-2xl uppercase">Alguns itens mudaram</h2>
+          <h2 id="titulo-mudancas" ref={(el) => { tituloFase.current = el; }} tabIndex={-1} className="font-titulo text-2xl uppercase focus:outline-none">Alguns itens mudaram</h2>
           <ul className="grid list-disc gap-1 pl-5 text-branco/90">
             {fase.mudancas.map((m) => <li key={m}>{m}</li>)}
           </ul>
@@ -188,7 +206,7 @@ function Campo({ id, rotulo: texto, erro, children }: { id: string; rotulo: stri
 function Opcao({ valor, atual, onEscolher, children }: { valor: string; atual: string; onEscolher(): void; children: string }) {
   return (
     <label className={`flex min-h-11 cursor-pointer items-center gap-3 border px-3 ${atual === valor ? 'border-branco' : 'border-linha'}`}>
-      <input type="radio" name="entrega" value={valor} checked={atual === valor} onChange={onEscolher} className="size-4 accent-branco" />
+      <input type="radio" id={`entrega-${valor}`} name="entrega" value={valor} checked={atual === valor} onChange={onEscolher} className="size-4 accent-branco" />
       <span>{children}</span>
     </label>
   );

@@ -121,3 +121,53 @@ it('sacola vazia em /finalizar volta para o início', async () => {
   renderizarApp('/finalizar');
   expect(await screen.findByRole('region', { name: 'Chegou agora' })).toBeInTheDocument();
 });
+
+it('sem rede: confere contra a vitrine já carregada e informa a hora em que ela foi carregada', async () => {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  vi.setSystemTime(new Date(2026, 10, 5, 9, 15));
+  localStorage.setItem(CHAVE, JSON.stringify({
+    itens: [{ pecaId: 'a', nome: 'Camisa dry fit NK', tamanho: 'M', precoUnitarioCentavos: 7990, quantidade: 1 }],
+    atualizadoEm: new Date(2026, 10, 1, 8, 0).toISOString(),
+  }));
+  const fonte = fonteDe();
+  fonte.carregar.mockResolvedValueOnce(vitrineDeTeste()).mockRejectedValueOnce(new Error('sem rede'));
+  renderizarApp('/finalizar', fonte);
+  await screen.findByLabelText('Seu nome');
+  vi.setSystemTime(new Date(2026, 10, 5, 18, 40));
+  await preencherMotoboy();
+  await enviar();
+  // o preço guardado (79,90) é diferente do da vitrine carregada (89,90): mostra a mudança antes
+  expect(await screen.findByText('Camisa dry fit NK passou de R$ 79,90 para R$ 89,90')).toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: 'Confirmar e enviar' }));
+  expect(mensagemEnviada().endsWith('(preços conferidos no site em 05/11/2026 às 09:15)')).toBe(true);
+  vi.useRealTimers();
+});
+
+it('sem rede com a loja pausada na vitrine já carregada: avisa e não envia', async () => {
+  comSacola();
+  const pausada = vitrineDeTeste();
+  pausada.configuracoes.lojaAberta = false;
+  const fonte = fonteDe();
+  fonte.carregar.mockResolvedValueOnce(pausada).mockRejectedValueOnce(new Error('sem rede'));
+  renderizarApp('/finalizar', fonte);
+  await preencherMotoboy();
+  await enviar();
+  expect(await screen.findByText('Pedidos pausados no momento. Fale com a gente no Instagram.')).toBeInTheDocument();
+  expect(abrir).not.toHaveBeenCalled();
+});
+
+it('com erro, o foco vai para o primeiro campo inválido', async () => {
+  comSacola();
+  renderizarApp('/finalizar');
+  await userEvent.type(await screen.findByLabelText('Seu nome'), 'João');
+  await enviar();
+  expect(screen.getByRole('radio', { name: 'Motoboy (Capivari de Baixo e região)' })).toHaveFocus();
+});
+
+it('ao mudar de fase, o foco vai para o título da nova seção', async () => {
+  comSacola();
+  renderizarApp('/finalizar');
+  await preencherMotoboy();
+  await enviar();
+  expect(screen.getByRole('heading', { name: 'Pedido enviado' })).toHaveFocus();
+});

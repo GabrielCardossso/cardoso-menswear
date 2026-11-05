@@ -4,17 +4,17 @@ import type { FonteVitrine, Vitrine } from './tipos';
 export type EstadoVitrine =
   | { estado: 'carregando' }
   | { estado: 'erro'; tentarDeNovo(): void }
-  | { estado: 'pronto'; vitrine: Vitrine; recarregar(): Promise<Vitrine> };
+  | { estado: 'pronto'; vitrine: Vitrine; carregadaEm: Date; recarregar(): Promise<Vitrine> };
 
 const Contexto = createContext<EstadoVitrine | null>(null);
 
 export function VitrineProvider({ fonte, children }: { fonte: FonteVitrine; children: ReactNode }) {
-  const [vitrine, setVitrine] = useState<Vitrine | null>(null);
+  const [carga, setCarga] = useState<{ vitrine: Vitrine; em: Date } | null>(null);
   const [erro, setErro] = useState(false);
 
   const carregar = useCallback(() => {
     setErro(false);
-    fonte.carregar().then(setVitrine, () => setErro(true));
+    fonte.carregar().then((vitrine) => setCarga({ vitrine, em: new Date() }), () => setErro(true));
   }, [fonte]);
 
   useEffect(carregar, [carregar]);
@@ -22,12 +22,12 @@ export function VitrineProvider({ fonte, children }: { fonte: FonteVitrine; chil
   /** Busca de novo (usado na conferência); rejeita se falhar, sem derrubar a vitrine já carregada. */
   const recarregar = useCallback(async () => {
     const nova = await fonte.carregar();
-    setVitrine(nova);
+    setCarga({ vitrine: nova, em: new Date() });
     return nova;
   }, [fonte]);
 
-  const valor: EstadoVitrine = vitrine
-    ? { estado: 'pronto', vitrine, recarregar }
+  const valor: EstadoVitrine = carga
+    ? { estado: 'pronto', vitrine: carga.vitrine, carregadaEm: carga.em, recarregar }
     : erro
       ? { estado: 'erro', tentarDeNovo: carregar }
       : { estado: 'carregando' };
