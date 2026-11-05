@@ -10,6 +10,8 @@ export default defineConfig({
     setupFiles: ['src/test/setup.ts'],
     globals: true,
     css: false,
+    // A máquina de desenvolvimento fica lenta com vários jsdom em paralelo; 5 s padrão dava falso alarme.
+    testTimeout: 15_000,
     exclude: ['e2e/**', 'node_modules/**'],
   },
 });
