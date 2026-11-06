@@ -23,6 +23,21 @@ tela de 390 × 844, do início até o link do WhatsApp. Ele usa o Chromium do Pl
 estiver instalado, rode `npx playwright install chromium` uma vez (ou aponte `CHROMIUM_PATH` para
 outro Chromium).
 
+## Supabase
+
+O banco é o projeto `cardoso-menswear` (São Paulo). As migrações ficam em `supabase/migrations/` e
+chegam ao banco pela integração do Supabase com o GitHub, a partir da `main`.
+
+Para o site ler o banco, copie `.env.example` para `.env.local` e preencha a URL e a chave
+**publicável** (`sb_publishable_…`). Sem esse arquivo, o `npm run dev` e os testes usam o JSON de
+exemplo; o build de produção sem as variáveis mostra erro em vez de peças de exemplo.
+
+```sh
+npm run test:integracao   # confere as regras de acesso no projeto real (lê o .env.local)
+```
+
+Esses testes só leem ou tentam gravar o que deve ser recusado: não deixam dado no banco.
+
 ## Endereços
 
 - `/`: início, com kits e "Chegou agora".

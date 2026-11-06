@@ -13,6 +13,6 @@ export default defineConfig({
     // A máquina de desenvolvimento fica lenta com vários jsdom em paralelo; 5 s padrão dava falso alarme.
     testTimeout: 15_000,
     maxWorkers: 2,
-    exclude: ['e2e/**', 'node_modules/**'],
+    exclude: ['e2e/**', 'node_modules/**', '**/*.integracao.test.ts'],
   },
 });

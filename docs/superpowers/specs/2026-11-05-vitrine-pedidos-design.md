@@ -285,8 +285,11 @@ Segurança (RLS em todas as tabelas):
   expostas automaticamente e RLS automático ligado. Todo dado de teste criado nele é apagado logo em
   seguida.
 - Migrações em `supabase/migrations/` no repositório. Elas chegam ao banco pela integração do Supabase
-  com o GitHub, com "deploy to production" apontado para a branch `producao`: o merge da `main` na
-  `producao` aplica o que for novo. Sem token da CLI no ambiente do Claude.
+  com o GitHub, com "deploy to production" apontado para a branch **`main`** (decisão do Gabriel em
+  2026-11-05): com um banco só, a migração precisa estar no banco para ser testada antes da aprovação
+  do código na `producao`. Por isso as migrações só acrescentam (nada de apagar ou renomear). **Rever
+  antes de publicar o site:** um segundo projeto, aplicar pela `producao` ou manter pela `main`. Sem
+  token da CLI no ambiente do Claude.
 - Painel e configurações do Supabase são acessados pelo Edge do Gabriel (extensão Claude in Chrome),
   conferindo a conta antes de agir.
 
