@@ -2,6 +2,7 @@
 // Lê os arquivos de supabase/migrations (sem rede) e confere as regras do plano da etapa 3.
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import exemplo from '../vitrine/vitrine-exemplo.json';
 
 const PASTA = join(process.cwd(), 'supabase', 'migrations');
 const arquivos = readdirSync(PASTA).filter((f) => f.endsWith('.sql')).sort();
@@ -43,6 +44,25 @@ describe('migrações', () => {
   it('is_admin é security definer com search_path vazio, sem execução para anon', () => {
     expect(codigo).toMatch(/create function private\.is_admin\(\)[\s\S]*?security definer[\s\S]*?set search_path = ''/i);
     expect(codigo).toMatch(/revoke execute on function private\.is_admin\(\) from public, anon/i);
+  });
+
+  it('dados iniciais: categorias e configurações iguais às do JSON de exemplo', () => {
+    const arquivo = arquivos.find((f) => f.endsWith('_dados_iniciais.sql'));
+    expect(arquivo).toBeDefined();
+    const dados = readFileSync(join(PASTA, arquivo!), 'utf8');
+    const literal = (s: string) => `'${s.replace(/'/g, "''")}'`;
+    for (const c of exemplo.categorias) {
+      const grade = `array[${c.grade.map(literal).join(', ')}]`;
+      expect(dados, c.slug).toContain(`(${literal(c.nome)}, ${literal(c.slug)}, ${grade}, ${c.ordem}, true)`);
+    }
+    const cfg = exemplo.configuracoes;
+    for (const v of [cfg.whatsappNumero, cfg.instagramUrl, cfg.grupoWhatsappUrl, cfg.textoEntrega]) {
+      expect(dados).toContain(literal(v));
+    }
+    // Rodar duas vezes não duplica nem falha.
+    expect(dados.match(/on conflict/gi)?.length).toBe(2);
+    // Peças e kits de exemplo nunca entram por migração.
+    expect(dados).not.toMatch(/insert into public\.(pecas|kits)/i);
   });
 
   it('só acrescentam: nada de drop table, drop column, rename ou truncate', () => {
