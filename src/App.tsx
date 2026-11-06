@@ -8,7 +8,7 @@ import Kits from './pages/Kits';
 import Peca from './pages/Peca';
 import Kit from './pages/Kit';
 import { SacolaProvider } from './sacola/SacolaContext';
-import { fonteLocal } from './vitrine/fonteLocal';
+import { escolherFonte } from './vitrine/escolherFonte';
 import { VitrineProvider } from './vitrine/VitrineContext';
 
 export function Rotas() {
@@ -30,10 +30,13 @@ export function Rotas() {
   );
 }
 
+// Criada uma vez: Supabase se houver ambiente; senão o JSON de exemplo (só fora do build de produção).
+const fonte = escolherFonte(import.meta.env);
+
 export default function App() {
   return (
     <BrowserRouter>
-      <VitrineProvider fonte={fonteLocal}>
+      <VitrineProvider fonte={fonte}>
         <SacolaProvider>
           <Rotas />
         </SacolaProvider>
