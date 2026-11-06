@@ -6,7 +6,7 @@ import Botao from '../componentes/Botao';
 import Campo from '../componentes/Campo';
 
 export default function Entrar() {
-  const { api, sessao, entrou } = useAdmin();
+  const { api, sessao, entrou, expirou } = useAdmin();
   const [busca] = useSearchParams();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -35,7 +35,7 @@ export default function Entrar() {
     <main className="mx-auto grid min-h-dvh w-full max-w-sm content-center gap-6 px-4 py-10">
       <img src={logo} alt="" className="h-10 w-auto justify-self-start" />
       <h1 className="font-titulo text-3xl uppercase">Painel Cardoso</h1>
-      {busca.get('expirou') && (
+      {(expirou || busca.get('expirou')) && (
         <p role="status" className="rounded-[3px] border border-linha p-3 text-sm">
           Sua sessão expirou. Entre de novo.
         </p>

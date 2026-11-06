@@ -7,6 +7,8 @@ export type EstadoSessao = 'verificando' | 'sem-config' | 'sem-sessao' | 'ativa'
 type Admin = {
   api: ApiAdmin;
   sessao: EstadoSessao;
+  /** A sessão venceu durante o uso (a entrada mostra o aviso). */
+  expirou: boolean;
   email: string;
   /** null enquanto carrega (ou sem sessão). */
   dados: DadosAdmin | null;
@@ -29,6 +31,7 @@ export function AdminProvider({ api, children }: { api: ApiAdmin; children: Reac
   const [email, setEmail] = useState('');
   const [dados, setDados] = useState<DadosAdmin | null>(null);
   const [erroCarga, setErroCarga] = useState(false);
+  const [venceu, setVenceu] = useState(false);
 
   useEffect(() => {
     let vivo = true;
@@ -49,6 +52,7 @@ export function AdminProvider({ api, children }: { api: ApiAdmin; children: Reac
   }, [api]);
 
   const expirou = useCallback(() => {
+    setVenceu(true);
     setSessao('sem-sessao');
     setDados(null);
     navigate('/admin/entrar?expirou=1', { replace: true });
@@ -72,11 +76,13 @@ export function AdminProvider({ api, children }: { api: ApiAdmin; children: Reac
     () => ({
       api,
       sessao,
+      expirou: venceu,
       email,
       dados,
       erroCarga,
       recarregar,
       entrou(e) {
+        setVenceu(false);
         setEmail(e);
         setSessao('ativa');
       },
@@ -94,7 +100,7 @@ export function AdminProvider({ api, children }: { api: ApiAdmin; children: Reac
         return ERRO_GRAVAR;
       },
     }),
-    [api, sessao, email, dados, erroCarga, recarregar, expirou, navigate],
+    [api, sessao, venceu, email, dados, erroCarga, recarregar, expirou, navigate],
   );
 
   return <Contexto.Provider value={valor}>{children}</Contexto.Provider>;
