@@ -9,6 +9,7 @@
     "module": "ESNext",
     "types": [
       "node",
+      "vite/client",
       "vitest/globals"
     ],
     "skipLibCheck": true,
