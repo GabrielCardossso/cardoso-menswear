@@ -23,6 +23,28 @@ describe('migrações', () => {
     for (const t of TABELAS) expect(codigo).toMatch(new RegExp(`create table public\\.${t}\\b`, 'i'));
   });
 
+  it('ligam a RLS em toda tabela criada em public', () => {
+    const criadas = [...codigo.matchAll(/create table public\.(\w+)/gi)].map((m) => m[1]);
+    for (const t of criadas) {
+      expect(codigo, t).toMatch(new RegExp(`alter table public\\.${t} enable row level security`, 'i'));
+    }
+  });
+
+  it('políticas chamam is_admin() e auth.uid() dentro de select (uma vez por consulta)', () => {
+    expect(codigo).toMatch(/create policy/i);
+    const semSelect = (fn: string) => new RegExp(`(?<!\\(select )${fn}\\(\\)`, 'gi');
+    const politicas = [...codigo.matchAll(/create policy[\s\S]*?;/gi)].map((m) => m[0]);
+    for (const p of politicas) {
+      expect(p).not.toMatch(semSelect('private\\.is_admin'));
+      expect(p).not.toMatch(semSelect('auth\\.uid'));
+    }
+  });
+
+  it('is_admin é security definer com search_path vazio, sem execução para anon', () => {
+    expect(codigo).toMatch(/create function private\.is_admin\(\)[\s\S]*?security definer[\s\S]*?set search_path = ''/i);
+    expect(codigo).toMatch(/revoke execute on function private\.is_admin\(\) from public, anon/i);
+  });
+
   it('só acrescentam: nada de drop table, drop column, rename ou truncate', () => {
     expect(codigo).not.toMatch(/\bdrop\s+table\b/i);
     expect(codigo).not.toMatch(/\bdrop\s+column\b/i);
