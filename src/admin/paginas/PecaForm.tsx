@@ -8,6 +8,7 @@ import Confirmar from '../componentes/Confirmar';
 import FotosPeca from '../componentes/FotosPeca';
 import Titulo, { classeLinkBotao } from '../componentes/Titulo';
 import { gerarSlug, lerPreco, validarPeca } from '../regras';
+import { ErroCriacaoParcial } from '../tipos';
 
 /** Uma instância por peça: ao sair de "nova" para a peça criada, o formulário recomeça com os dados salvos. */
 export default function PecaForm() {
@@ -27,7 +28,10 @@ function Formulario({ id }: { id?: string }) {
   const [descricao, setDescricao] = useState(peca?.descricao ?? '');
   const [tamanhos, setTamanhos] = useState<Record<string, boolean>>(peca?.tamanhos ?? {});
   const [erros, setErros] = useState<Record<string, string>>({});
-  const [aviso, setAviso] = useState((location.state as { salvo?: boolean } | null)?.salvo ? 'Salvo.' : '');
+  const [aviso, setAviso] = useState(() => {
+    const s = location.state as { salvo?: boolean; parcial?: boolean } | null;
+    return s?.parcial ? 'A peça foi criada, mas nem tudo foi salvo. Confira e salve de novo.' : s?.salvo ? 'Salvo.' : '';
+  });
   const [ocupado, setOcupado] = useState(false);
   const [confirmando, setConfirmando] = useState(false);
   const gravando = useRef(false);
@@ -82,9 +86,16 @@ function Formulario({ id }: { id?: string }) {
         await recarregar();
         setAviso('Salvo.');
       } else {
-        const nova = await api.criarPeca(d);
-        await recarregar();
-        navigate(`/admin/pecas/${nova.id}`, { replace: true, state: { salvo: true } });
+        try {
+          const nova = await api.criarPeca(d);
+          await recarregar();
+          navigate(`/admin/pecas/${nova.id}`, { replace: true, state: { salvo: true } });
+        } catch (e) {
+          if (!(e instanceof ErroCriacaoParcial)) throw e;
+          // A linha existe: vai para a edição dela, e salvar de novo atualiza em vez de duplicar.
+          await recarregar();
+          navigate(`/admin/pecas/${e.id}`, { replace: true, state: { parcial: true } });
+        }
       }
     });
   }
@@ -197,6 +208,7 @@ function Formulario({ id }: { id?: string }) {
           texto={`"${peca.nome}" some do painel. As fotos também são apagadas.${emKits ? ` Ela sai de ${emKits} ${emKits === 1 ? 'kit' : 'kits'}.` : ''}`}
           confirmar="Excluir peça"
           ocupado={ocupado}
+          erro={aviso}
           onCancelar={() => setConfirmando(false)}
           onConfirmar={() =>
             void gravar(async () => {

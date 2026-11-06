@@ -4,6 +4,7 @@ import { urlDaFoto } from '../../vitrine/fonteSupabase';
 import type { Configuracoes } from '../../vitrine/tipos';
 import { gerarSlug, slugLivre } from '../regras';
 import {
+  ErroCriacaoParcial,
   ErroSessao,
   type ApiAdmin,
   type CategoriaAdmin,
@@ -89,7 +90,7 @@ export function ehErroSessao(e: { code?: string; status?: number; message?: stri
     e.code === 'PGRST301' ||
     e.code === 'PGRST303' ||
     e.code === '42501' ||
-    /jwt expired/i.test(e.message ?? '')
+    /jwt expired|row-level security/i.test(e.message ?? '')
   );
 }
 
@@ -155,17 +156,36 @@ export function criarApiSupabase(db: SupabaseClient, urlBase: string): ApiAdmin 
     preco: reais(d.precoCentavos),
   });
 
+  /** WebP na maioria dos navegadores; JPEG no iPhone (Safari não gera WebP). */
   const enviarObjeto = async (pasta: string, foto: Blob) => {
-    const path = `${pasta}/${crypto.randomUUID()}.webp`;
-    const { error } = await db.storage.from(BUCKET).upload(path, foto, { contentType: 'image/webp', upsert: false });
+    const jpeg = foto.type === 'image/jpeg';
+    const path = `${pasta}/${crypto.randomUUID()}.${jpeg ? 'jpg' : 'webp'}`;
+    const { error } = await db.storage.from(BUCKET).upload(path, foto, { contentType: jpeg ? 'image/jpeg' : 'image/webp', upsert: false });
     if (error) falha(error as ErroSupabase & object);
     return path;
   };
+  /**
+   * Limpeza do Storage depois que a linha já foi apagada: falhar aqui não pode deixar a exclusão pela
+   * metade na tela (a linha já sumiu; repetir daria "zero linhas"). Arquivo que sobra no bucket não aparece.
+   */
   const removerObjetos = async (paths: (string | null | undefined)[]) => {
     const doBucketSo = paths.filter(doBucket);
     if (doBucketSo.length === 0) return;
-    const { error } = await db.storage.from(BUCKET).remove(doBucketSo);
-    if (error) falha(error as ErroSupabase & object);
+    try {
+      await db.storage.from(BUCKET).remove(doBucketSo);
+    } catch {
+      // ignora: sobra no bucket
+    }
+  };
+
+  /** Depois do insert, qualquer falha (menos sessão) vira ErroCriacaoParcial com o id já criado. */
+  const completarCriacao = async <T>(id: string, passos: () => Promise<T>): Promise<T> => {
+    try {
+      return await passos();
+    } catch (e) {
+      if (e instanceof ErroSessao) throw e;
+      throw new ErroCriacaoParcial(id);
+    }
   };
 
   const reordenar = async (tabela: 'kits' | 'categorias' | 'peca_fotos', ids: string[], base = 1) => {
@@ -202,6 +222,9 @@ export function criarApiSupabase(db: SupabaseClient, urlBase: string): ApiAdmin 
     },
 
     async carregar() {
+      // Sem sessão a leitura não falha: devolve só o público (some o arquivado/oculto). Para o painel, é sessão perdida.
+      const { data: s } = await db.auth.getSession();
+      if (!s.session) throw new ErroSessao();
       const [categorias, pecas, kits, configuracoes] = await Promise.all([
         db.from('categorias').select(COLUNAS_CATEGORIA).order('ordem'),
         db.from('pecas').select(COLUNAS_PECA).order('criado_em', { ascending: false }),
@@ -234,8 +257,10 @@ export function criarApiSupabase(db: SupabaseClient, urlBase: string): ApiAdmin 
 
     async criarPeca(d) {
       const nova = await inserirComSlug<LinhaPeca>('pecas', d.nome, linhaPeca(d), 'id');
-      await gravarTamanhos(nova.id, d.tamanhos);
-      return paraPecaAdmin(exigir(await db.from('pecas').select(COLUNAS_PECA).eq('id', nova.id).single()) as LinhaPeca);
+      return completarCriacao(nova.id, async () => {
+        await gravarTamanhos(nova.id, d.tamanhos);
+        return paraPecaAdmin(exigir(await db.from('pecas').select(COLUNAS_PECA).eq('id', nova.id).single()) as LinhaPeca);
+      });
     },
 
     async salvarPeca(id, d) {
@@ -287,8 +312,10 @@ export function criarApiSupabase(db: SupabaseClient, urlBase: string): ApiAdmin 
         { titulo: d.titulo.trim(), descricao: textoOuNulo(d.descricao), publicado: false, ordem },
         'id',
       );
-      exigir(await db.from('kit_pecas').insert(d.pecaIds.map((peca_id, i) => ({ kit_id: novo.id, peca_id, ordem: i }))).select('kit_id'));
-      return paraKitAdmin(exigir(await db.from('kits').select(COLUNAS_KIT).eq('id', novo.id).single()) as LinhaKit);
+      return completarCriacao(novo.id, async () => {
+        exigir(await db.from('kit_pecas').insert(d.pecaIds.map((peca_id, i) => ({ kit_id: novo.id, peca_id, ordem: i }))).select('kit_id'));
+        return paraKitAdmin(exigir(await db.from('kits').select(COLUNAS_KIT).eq('id', novo.id).single()) as LinhaKit);
+      });
     },
 
     async salvarKit(id, d) {

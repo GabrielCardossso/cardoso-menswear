@@ -1,7 +1,22 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiLogada, renderizarAdmin } from '../test/renderizarAdmin';
-import type { PecaAdmin } from '../tipos';
+import { ErroCriacaoParcial, type PecaAdmin } from '../tipos';
+
+describe('criação pela metade', () => {
+  it('peça criada mas com falha depois vai para a edição dela (salvar de novo não duplica)', async () => {
+    const api = await apiLogada();
+    const criar = vi.spyOn(api, 'criarPeca').mockRejectedValueOnce(new ErroCriacaoParcial('p05'));
+    renderizarAdmin('/admin/pecas/nova', api);
+    await userEvent.type(await screen.findByLabelText('Nome'), 'Polo');
+    await userEvent.type(screen.getByLabelText('Preço'), '10');
+    await userEvent.selectOptions(screen.getByLabelText('Categoria'), 'Polos');
+    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }));
+    await waitFor(() => expect(screen.getByTestId('caminho')).toHaveTextContent('/admin/pecas/p05'));
+    expect(await screen.findByText('A peça foi criada, mas nem tudo foi salvo. Confira e salve de novo.')).toBeInTheDocument();
+    expect(criar).toHaveBeenCalledTimes(1);
+  });
+});
 
 const linhas = () => within(screen.getByRole('list', { name: 'Peças' })).getAllByRole('listitem');
 

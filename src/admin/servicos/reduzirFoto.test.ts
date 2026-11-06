@@ -27,7 +27,22 @@ describe('reduzirFoto', () => {
     toBlob.mockRestore();
   });
 
-  it('navegador que não gera WebP também é foto-ilegivel', async () => {
+  it('navegador que não gera WebP (iPhone) manda JPEG', async () => {
+    vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ width: 10, height: 10, close: vi.fn() }));
+    const getContext = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ drawImage: vi.fn() } as never);
+    const toBlob = vi
+      .spyOn(HTMLCanvasElement.prototype, 'toBlob')
+      .mockImplementation((cb: BlobCallback, tipo?: string) =>
+        cb(new Blob(['x'], { type: tipo === 'image/jpeg' ? 'image/jpeg' : 'image/png' })),
+      );
+    const blob = await reduzirFoto(arquivo);
+    expect(blob.type).toBe('image/jpeg');
+    expect(toBlob).toHaveBeenLastCalledWith(expect.any(Function), 'image/jpeg', 0.85);
+    getContext.mockRestore();
+    toBlob.mockRestore();
+  });
+
+  it('sem WebP nem JPEG é foto-ilegivel', async () => {
     vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ width: 10, height: 10, close: vi.fn() }));
     const getContext = vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ drawImage: vi.fn() } as never);
     const toBlob = vi

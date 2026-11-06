@@ -223,6 +223,7 @@ export default function Categorias() {
           texto={pergunta.texto}
           confirmar={pergunta.confirmar}
           ocupado={ocupado}
+          erro={aviso}
           onCancelar={() => setPergunta(null)}
           onConfirmar={() =>
             void gravar(async () => {

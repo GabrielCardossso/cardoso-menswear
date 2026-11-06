@@ -56,6 +56,17 @@ export class ErroSessao extends Error {
 }
 
 /**
+ * A linha foi criada no banco, mas um passo seguinte falhou (ex.: a rede caiu antes dos tamanhos).
+ * A tela vai para a edição desse `id`: salvar de novo atualiza, nunca cria uma segunda peça/kit.
+ */
+export class ErroCriacaoParcial extends Error {
+  constructor(readonly id: string) {
+    super('criacao-parcial');
+    this.name = 'ErroCriacaoParcial';
+  }
+}
+
+/**
  * O que as telas do painel usam. Duas versões: Supabase (banco real) e memória (testes, e2e e dev sem .env.local).
  * Toda falha de rede ou do banco rejeita com Error; sessão expirada ou ausente rejeita com ErroSessao.
  */

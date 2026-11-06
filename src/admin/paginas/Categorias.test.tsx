@@ -87,4 +87,17 @@ describe('categorias', () => {
     expect(screen.getByText('Coloque ao menos um tamanho.')).toBeInTheDocument();
     expect(criar).not.toHaveBeenCalled();
   });
+
+  it('falha ao mudar a grade aparece dentro da janela de confirmação', async () => {
+    const api = await abrir();
+    vi.spyOn(api, 'salvarCategoria').mockRejectedValue(new Error('rede'));
+    await userEvent.click(screen.getByRole('button', { name: 'Editar Polos' }));
+    const grade = screen.getByLabelText('Tamanhos');
+    await userEvent.clear(grade);
+    await userEvent.type(grade, 'M G');
+    await userEvent.click(screen.getByRole('button', { name: 'Salvar' }));
+    const dialogo = screen.getByRole('dialog', { name: 'Mudar os tamanhos?' });
+    await userEvent.click(within(dialogo).getByRole('button', { name: 'Mudar tamanhos' }));
+    expect(await within(dialogo).findByText('Não foi possível salvar. Confira a internet e tente de novo.')).toBeInTheDocument();
+  });
 });

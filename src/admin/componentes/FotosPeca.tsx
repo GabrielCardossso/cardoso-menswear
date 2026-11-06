@@ -125,6 +125,7 @@ export default function FotosPeca({ peca, reduzir = reduzirFoto }: Props) {
           texto="A foto é apagada e não dá para desfazer."
           confirmar="Remover foto"
           ocupado={ocupado}
+          erro={avisos.join(' ')}
           onCancelar={() => setRemovendo(null)}
           onConfirmar={() =>
             void trabalhar(async () => {

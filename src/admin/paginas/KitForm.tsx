@@ -9,6 +9,7 @@ import Interruptor from '../componentes/Interruptor';
 import Titulo, { classeLinkBotao } from '../componentes/Titulo';
 import { pecaEsgotada, validarKit } from '../regras';
 import { reduzirFoto } from '../servicos/reduzirFoto';
+import { ErroCriacaoParcial } from '../tipos';
 
 const MAX_PECAS = 4;
 const semAcento = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -31,7 +32,10 @@ function Formulario({ id }: { id?: string }) {
   const [pecaIds, setPecaIds] = useState<string[]>(kit?.pecaIds ?? []);
   const [busca, setBusca] = useState('');
   const [erros, setErros] = useState<Record<string, string>>({});
-  const [aviso, setAviso] = useState((location.state as { salvo?: boolean } | null)?.salvo ? 'Salvo.' : '');
+  const [aviso, setAviso] = useState(() => {
+    const s = location.state as { salvo?: boolean; parcial?: boolean } | null;
+    return s?.parcial ? 'O kit foi criado, mas nem tudo foi salvo. Confira e salve de novo.' : s?.salvo ? 'Salvo.' : '';
+  });
   const [ocupado, setOcupado] = useState(false);
   const [confirmando, setConfirmando] = useState(false);
   const gravando = useRef(false);
@@ -94,9 +98,15 @@ function Formulario({ id }: { id?: string }) {
         await recarregar();
         setAviso('Salvo.');
       } else {
-        const novo = await api.criarKit(d);
-        await recarregar();
-        navigate(`/admin/kits/${novo.id}`, { replace: true, state: { salvo: true } });
+        try {
+          const novo = await api.criarKit(d);
+          await recarregar();
+          navigate(`/admin/kits/${novo.id}`, { replace: true, state: { salvo: true } });
+        } catch (e) {
+          if (!(e instanceof ErroCriacaoParcial)) throw e;
+          await recarregar();
+          navigate(`/admin/kits/${e.id}`, { replace: true, state: { parcial: true } });
+        }
       }
     });
   }
@@ -257,6 +267,7 @@ function Formulario({ id }: { id?: string }) {
           texto={`"${kit.titulo}" sai do site. As peças continuam cadastradas.`}
           confirmar="Excluir kit"
           ocupado={ocupado}
+          erro={aviso}
           onCancelar={() => setConfirmando(false)}
           onConfirmar={() =>
             void gravar(async () => {

@@ -9,10 +9,12 @@ type Props = {
   onConfirmar(): void;
   onCancelar(): void;
   ocupado?: boolean;
+  /** Erro da última tentativa, mostrado dentro da janela (fora dela ficaria escondido pelo fundo). */
+  erro?: string;
 };
 
 /** Pergunta de confirmação na própria tela (spec: exclusão definitiva com confirmação). */
-export default function Confirmar({ titulo, texto, confirmar, onConfirmar, onCancelar, ocupado }: Props) {
+export default function Confirmar({ titulo, texto, confirmar, onConfirmar, onCancelar, ocupado, erro }: Props) {
   const id = useId();
   const cancelar = useRef<HTMLButtonElement>(null);
 
@@ -36,6 +38,11 @@ export default function Confirmar({ titulo, texto, confirmar, onConfirmar, onCan
         <p id={`${id}-d`} className="text-carpete">
           {texto}
         </p>
+        {erro && (
+          <p role="alert" className="text-sm">
+            {erro}
+          </p>
+        )}
         <div className="flex flex-wrap justify-end gap-2">
           <Botao ref={cancelar} onClick={onCancelar} disabled={ocupado}>
             Cancelar
