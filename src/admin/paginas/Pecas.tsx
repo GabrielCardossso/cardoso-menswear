@@ -34,7 +34,7 @@ export default function Pecas() {
   const alternar = (s: Situacao) => setSituacao((atual) => (atual === s ? 'a-venda' : s));
 
   return (
-    <main className="grid gap-4">
+    <main className="grid grid-cols-1 gap-4">
       <Titulo
         acoes={
           <Link to="/admin/pecas/nova" className={classeLinkPrincipal}>

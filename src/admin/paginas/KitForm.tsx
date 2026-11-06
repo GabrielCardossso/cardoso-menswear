@@ -121,7 +121,7 @@ function Formulario({ id }: { id?: string }) {
   const capa = kit?.fotoPath ?? (pecaIds[0] ? pecaPorId(pecaIds[0])?.fotos[0]?.path : undefined);
 
   return (
-    <main className="grid max-w-xl gap-5">
+    <main className="grid grid-cols-1 max-w-xl gap-5">
       <Link to="/admin/kits" className="text-sm text-carpete hover:text-branco">
         ← Kits
       </Link>
@@ -148,7 +148,7 @@ function Formulario({ id }: { id?: string }) {
         <Campo rotulo="Título" value={titulo} onChange={(e) => setTitulo(e.target.value)} erro={erros.titulo} maxLength={80} />
         <CampoTexto rotulo="Descrição (opcional)" value={descricao} onChange={(e) => setDescricao(e.target.value)} />
 
-        <fieldset className="grid gap-3">
+        <fieldset className="grid grid-cols-1 gap-3">
           <legend className="mb-1.5 font-rotulo text-xs tracking-[0.12em] text-carpete uppercase">Peças (de 2 a 4)</legend>
           {pecaIds.length > 0 && (
             <ol aria-label="Peças do kit" className="divide-y divide-linha border-y border-linha">

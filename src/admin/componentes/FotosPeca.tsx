@@ -68,7 +68,7 @@ export default function FotosPeca({ peca, reduzir = reduzirFoto }: Props) {
   }
 
   return (
-    <div className="grid gap-3">
+    <div className="grid grid-cols-1 gap-3">
       {fotos.length === 0 ? (
         <p className="text-sm text-carpete">Sem fotos ainda.</p>
       ) : (

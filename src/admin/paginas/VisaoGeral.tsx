@@ -37,7 +37,7 @@ export default function VisaoGeral() {
   }
 
   return (
-    <main className="grid gap-6">
+    <main className="grid grid-cols-1 gap-6">
       <Titulo
         acoes={
           <>
@@ -53,7 +53,7 @@ export default function VisaoGeral() {
         Visão geral
       </Titulo>
 
-      <section className="grid gap-2 rounded-[3px] border border-linha p-4">
+      <section className="grid grid-cols-1 gap-2 rounded-[3px] border border-linha p-4">
         <Interruptor
           rotulo="Loja aberta"
           ligado={aberta}

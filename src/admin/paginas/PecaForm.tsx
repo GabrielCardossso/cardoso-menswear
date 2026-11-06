@@ -90,7 +90,7 @@ function Formulario({ id }: { id?: string }) {
   }
 
   return (
-    <main className="grid max-w-xl gap-5">
+    <main className="grid grid-cols-1 max-w-xl gap-5">
       <Link to="/admin/pecas" className="text-sm text-carpete hover:text-branco">
         ← Peças
       </Link>
@@ -123,7 +123,7 @@ function Formulario({ id }: { id?: string }) {
         {trocouCategoria && <p className="text-sm">Os tamanhos vão ser os da nova categoria, todos desligados.</p>}
 
         {categoria && (
-          <fieldset className="grid gap-2">
+          <fieldset className="grid grid-cols-1 gap-2">
             <legend className="mb-1.5 font-rotulo text-xs tracking-[0.12em] text-carpete uppercase">Tamanhos disponíveis</legend>
             <div className="flex flex-wrap gap-1.5">
               {categoria.grade.map((t) => {

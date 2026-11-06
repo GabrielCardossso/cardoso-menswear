@@ -46,7 +46,7 @@ export default function Configuracoes() {
   }
 
   return (
-    <main className="grid max-w-xl gap-6">
+    <main className="grid grid-cols-1 max-w-xl gap-6">
       <Titulo>Ajustes</Titulo>
       <form onSubmit={salvar} noValidate className="grid gap-4">
         <Campo

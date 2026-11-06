@@ -131,7 +131,7 @@ export default function Categorias() {
   }
 
   return (
-    <main className="grid max-w-2xl gap-5">
+    <main className="grid grid-cols-1 max-w-2xl gap-5">
       <Titulo>Categorias</Titulo>
       <p className="text-sm text-carpete">A ordem daqui é a das pílulas do site. Categoria escondida some do site com as peças dela.</p>
       {aviso && !pergunta && <p role="alert">{aviso}</p>}

@@ -29,7 +29,7 @@ export default function Kits() {
   }
 
   return (
-    <main className="grid gap-4">
+    <main className="grid grid-cols-1 gap-4">
       <Titulo
         acoes={
           <Link to="/admin/kits/novo" className={classeLinkPrincipal}>
