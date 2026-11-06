@@ -33,7 +33,7 @@ export function Novidades() {
     <main className="grid gap-4 px-4 md:px-8">
       <PilulasCategorias />
       <Titulo>Novidades</Titulo>
-      <GradePecas pecas={pecas} />
+      {pecas.length > 0 ? <GradePecas pecas={pecas} /> : <p className="text-carpete">Nenhuma peça disponível por enquanto.</p>}
     </main>
   );
 }

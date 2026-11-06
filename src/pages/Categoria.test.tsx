@@ -1,5 +1,6 @@
 import { screen, within } from '@testing-library/react';
-import { renderizarApp } from '../test/renderizar';
+import { fonteDe, renderizarApp } from '../test/renderizar';
+import { vitrineDeTeste } from '../vitrine/vitrineDeTeste';
 
 beforeEach(() => localStorage.clear());
 
@@ -26,4 +27,20 @@ it('novidades: todas as peças, mais novas primeiro, esgotadas no fim', async ()
   expect(await screen.findByRole('heading', { level: 1, name: 'Novidades' })).toBeInTheDocument();
   const hrefs = within(screen.getByRole('list', { name: 'Peças' })).getAllByRole('link').map((l) => l.getAttribute('href'));
   expect(hrefs).toEqual(['/p/b', '/p/a', '/p/velha', '/p/esgotada']);
+});
+
+it('kits vazio: aviso de que não há kit por enquanto', async () => {
+  const v = vitrineDeTeste();
+  v.kits = [];
+  renderizarApp('/kits', fonteDe(v));
+  expect(await screen.findByRole('heading', { level: 1, name: 'Kits' })).toBeInTheDocument();
+  expect(screen.getByText('Nenhum kit disponível por enquanto.')).toBeInTheDocument();
+  expect(screen.queryByRole('list', { name: 'Kits' })).not.toBeInTheDocument();
+});
+
+it('novidades vazio: aviso de que não há peça por enquanto', async () => {
+  const v = vitrineDeTeste();
+  v.pecas = [];
+  renderizarApp('/novidades', fonteDe(v));
+  expect(await screen.findByText('Nenhuma peça disponível por enquanto.')).toBeInTheDocument();
 });
