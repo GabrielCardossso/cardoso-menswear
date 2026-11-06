@@ -65,6 +65,10 @@ describe('migrações', () => {
     expect(dados).not.toMatch(/insert into public\.(pecas|kits)/i);
   });
 
+  it('fecha para a API a função do RLS automático criada pelo Supabase (aviso do Security Advisor)', () => {
+    expect(codigo).toMatch(/revoke execute on function public\.rls_auto_enable\(\) from public, anon, authenticated/i);
+  });
+
   it('só acrescentam: nada de drop table, drop column, rename ou truncate', () => {
     expect(codigo).not.toMatch(/\bdrop\s+table\b/i);
     expect(codigo).not.toMatch(/\bdrop\s+column\b/i);
