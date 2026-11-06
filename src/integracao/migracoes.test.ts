@@ -69,6 +69,18 @@ describe('migrações', () => {
     expect(codigo).toMatch(/revoke execute on function public\.rls_auto_enable\(\) from public, anon, authenticated/i);
   });
 
+  it('tamanhos das peças acompanham a grade da categoria (gatilhos)', () => {
+    expect(codigo).toMatch(
+      /create function public\.sincronizar_tamanhos\(p_peca_id uuid\)[\s\S]*?security invoker[\s\S]*?set search_path = ''/i,
+    );
+    expect(codigo).toMatch(/create trigger \w+[\s\S]*?on public\.pecas[\s\S]*?execute function/i);
+    expect(codigo).toMatch(/create trigger \w+[\s\S]*?update of grade on public\.categorias[\s\S]*?execute function/i);
+    expect(codigo).toMatch(/revoke execute on function public\.sincronizar_tamanhos\(uuid\) from public, anon/i);
+    expect(codigo).toMatch(/grant execute on function public\.sincronizar_tamanhos\(uuid\) to authenticated/i);
+    expect(codigo).toMatch(/revoke execute on function public\.tamanhos_da_peca\(\) from public, anon, authenticated/i);
+    expect(codigo).toMatch(/revoke execute on function public\.tamanhos_da_categoria\(\) from public, anon, authenticated/i);
+  });
+
   it('só acrescentam: nada de drop table, drop column, rename ou truncate', () => {
     expect(codigo).not.toMatch(/\bdrop\s+table\b/i);
     expect(codigo).not.toMatch(/\bdrop\s+column\b/i);
