@@ -216,9 +216,8 @@ type Sacola = { itens: ItemDaSacola[]; atualizadoEm: string };
 - **Excluir**: o padrão é arquivar (some do site, dá para restaurar). Exclusão definitiva com
   confirmação na própria tela.
 - **Sair** encerra a sessão; rotas do admin sem sessão voltam ao login.
-- Conta de desenvolvimento criada só no projeto Supabase de desenvolvimento, por script que lê
-  e-mail e senha de variáveis de ambiente. Nunca no código nem no repositório; a de produção tem
-  senha própria e forte.
+- Conta de admin com senha própria e forte, criada pelo Gabriel no painel do Supabase. Nenhuma senha
+  no código nem no repositório. Contas de teste, se houver, são apagadas logo depois (um projeto só).
 
 ### Banco de dados (Supabase / Postgres)
 
@@ -280,9 +279,16 @@ Segurança (RLS em todas as tabelas):
   `src/services` (Supabase), `src/lib` (dinheiro, sacola, mensagem), `src/types`, `public/`,
   `api/` (função da prévia). Criar só o que cada etapa precisa.
 - Vercel ligada ao repositório: produção = branch `producao`; cada push na `main` gera link de teste.
-- Dois projetos Supabase gratuitos: desenvolvimento e produção.
-- Acesso ao Supabase como na Marisa: no começo da etapa 3 o Claude para e passa ao Gabriel o passo a
-  passo para criar os projetos e o token da CLI.
+- **Um projeto Supabase só** (decisão do Gabriel em 2026-11-05, para não ocupar as 2 vagas gratuitas):
+  `cardoso-menswear`, referência `gbhbzntuuysswbsptqgi`, região São Paulo (`sa-east-1`), na conta
+  pessoal "GabrielCardossso's Org" (não na organização da empresa). Criado com tabelas novas não
+  expostas automaticamente e RLS automático ligado. Todo dado de teste criado nele é apagado logo em
+  seguida.
+- Migrações em `supabase/migrations/` no repositório. Elas chegam ao banco pela integração do Supabase
+  com o GitHub, com "deploy to production" apontado para a branch `producao`: o merge da `main` na
+  `producao` aplica o que for novo. Sem token da CLI no ambiente do Claude.
+- Painel e configurações do Supabase são acessados pelo Edge do Gabriel (extensão Claude in Chrome),
+  conferindo a conta antes de agir.
 
 ## Etapas
 
