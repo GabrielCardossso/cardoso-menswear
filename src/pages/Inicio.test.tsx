@@ -56,3 +56,19 @@ it('erro ao carregar: mostra aviso e tenta de novo', async () => {
   await userEvent.click(await screen.findByRole('button', { name: 'Tentar de novo' }));
   expect(await screen.findByRole('region', { name: 'Chegou agora' })).toBeInTheDocument();
 });
+
+it('vitrine vazia: aviso "Novidades chegando" com link do Instagram', async () => {
+  const v = vitrineDeTeste();
+  v.pecas = [];
+  v.kits = [];
+  renderizarApp('/', fonteDe(v));
+  expect(await screen.findByRole('heading', { name: 'Novidades chegando' })).toBeInTheDocument();
+  expect(screen.getByText('Estamos preparando a vitrine. Enquanto isso, veja as peças no nosso Instagram.')).toBeInTheDocument();
+  expect(screen.getByRole('link', { name: 'Ver no Instagram' })).toHaveAttribute('href', 'https://www.instagram.com/cardoso.menswear/');
+});
+
+it('com peças, o aviso de vitrine vazia não aparece', async () => {
+  renderizarApp('/');
+  await screen.findByRole('region', { name: 'Chegou agora' });
+  expect(screen.queryByRole('heading', { name: 'Novidades chegando' })).not.toBeInTheDocument();
+});
