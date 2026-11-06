@@ -5,6 +5,7 @@ import { useDadosAdmin } from '../AdminContext';
 import Botao from '../componentes/Botao';
 import Campo, { CampoEscolha, CampoTexto } from '../componentes/Campo';
 import Confirmar from '../componentes/Confirmar';
+import FotosPeca from '../componentes/FotosPeca';
 import Titulo, { classeLinkBotao } from '../componentes/Titulo';
 import { gerarSlug, lerPreco, validarPeca } from '../regras';
 
@@ -166,7 +167,7 @@ function Formulario({ id }: { id?: string }) {
         <h2 id="t-fotos" className="font-rotulo text-sm tracking-[0.12em] text-carpete uppercase">
           Fotos
         </h2>
-        {!peca && <p className="text-sm text-carpete">Salve a peça para adicionar fotos.</p>}
+        {peca ? <FotosPeca peca={peca} /> : <p className="text-sm text-carpete">Salve a peça para adicionar fotos.</p>}
       </section>
 
       {peca && (
