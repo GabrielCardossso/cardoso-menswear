@@ -13,6 +13,8 @@ const fonteSemConfiguracao: FonteVitrine = {
 
 /** Supabase quando há ambiente; sem ele, o JSON de exemplo só em desenvolvimento e testes. */
 export function escolherFonte(env: Record<string, unknown>): FonteVitrine {
+  // O build do e2e (vite build --mode e2e) nunca toca o banco de produção: usa sempre o JSON de exemplo.
+  if (env.MODE === 'e2e') return fonteLocal;
   const ambiente = lerAmbienteSupabase(env);
   if (ambiente) {
     // Etapa 3: só leitura pública. O login do admin (etapa 4) muda as opções de sessão.

@@ -152,3 +152,15 @@ describe('criarFonteSupabase', () => {
     await expect(criarFonteSupabase(clienteFalso(r), BASE).carregar()).rejects.toThrow();
   });
 });
+
+describe('criarFonteSupabase sem resposta', () => {
+  it('rejeita quando o Supabase não responde dentro do limite', async () => {
+    const travado = {
+      from() {
+        const e = { select: () => e, order: () => e, maybeSingle: () => e, then: () => undefined };
+        return e;
+      },
+    } as unknown as SupabaseClient;
+    await expect(criarFonteSupabase(travado, BASE, 50).carregar()).rejects.toThrow(/tempo/i);
+  });
+});

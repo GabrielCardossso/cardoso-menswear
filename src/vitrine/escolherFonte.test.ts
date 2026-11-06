@@ -23,3 +23,9 @@ describe('escolherFonte', () => {
     expect(escolherFonte({ ...ambiente, DEV: true, MODE: 'development' })).not.toBe(fonteLocal);
   });
 });
+
+describe('escolherFonte no build do e2e', () => {
+  it('usa sempre o JSON de exemplo, mesmo com o Supabase no ambiente', () => {
+    expect(escolherFonte({ ...ambiente, DEV: false, PROD: true, MODE: 'e2e' })).toBe(fonteLocal);
+  });
+});

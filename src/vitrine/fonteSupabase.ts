@@ -94,10 +94,21 @@ function exigir<T>(nome: string, r: { data: T | null; error: { message: string }
   return r.data;
 }
 
-export function criarFonteSupabase(cliente: SupabaseClient, urlBase: string): FonteVitrine {
+/** Sinal fraco pode travar a conexão sem erro: depois disso, a vitrine mostra o erro e a finalização cai no caminho sem rede. */
+export const LIMITE_MS = 10_000;
+
+function comLimite<T>(promessa: PromiseLike<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const estouro = new Promise<never>((_, rejeitar) => {
+    timer = setTimeout(() => rejeitar(new Error(`Supabase: sem resposta em ${ms} ms (tempo esgotado)`)), ms);
+  });
+  return Promise.race([Promise.resolve(promessa), estouro]).finally(() => clearTimeout(timer));
+}
+
+export function criarFonteSupabase(cliente: SupabaseClient, urlBase: string, limiteMs = LIMITE_MS): FonteVitrine {
   return {
     async carregar() {
-      const [categorias, pecas, kits, configuracoes] = await Promise.all([
+      const [categorias, pecas, kits, configuracoes] = await comLimite(Promise.all([
         cliente.from('categorias').select('id, nome, slug, grade, ordem').order('ordem'),
         cliente
           .from('pecas')
@@ -112,7 +123,7 @@ export function criarFonteSupabase(cliente: SupabaseClient, urlBase: string): Fo
           .from('configuracoes')
           .select('loja_aberta, whatsapp_numero, instagram_url, grupo_whatsapp_url, texto_entrega')
           .maybeSingle(),
-      ]);
+      ]), limiteMs);
       return montarVitrine(
         {
           categorias: exigir('categorias', categorias) as Linhas['categorias'],

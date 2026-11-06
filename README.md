@@ -18,7 +18,7 @@ npm test           # testes unitários e de componentes (Vitest)
 npm run test:e2e   # fluxo completo no navegador (Playwright)
 ```
 
-O teste de ponta a ponta faz o build, sobe o `vite preview` na porta 4173 e percorre o fluxo numa
+O teste de ponta a ponta faz o build em modo `e2e` (sempre com o JSON de exemplo, nunca o banco), sobe o `vite preview` na porta 4173 e percorre o fluxo numa
 tela de 390 × 844, do início até o link do WhatsApp. Ele usa o Chromium do Playwright; se ainda não
 estiver instalado, rode `npx playwright install chromium` uma vez (ou aponte `CHROMIUM_PATH` para
 outro Chromium).

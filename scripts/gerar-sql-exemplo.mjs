@@ -5,6 +5,8 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+/** Slug de exemplo nunca colide com peça real: sempre começa com 'exemplo-'. */
+const ex = (slug) => (slug.startsWith('exemplo-') ? slug : `exemplo-${slug}`);
 const lit = (s) => `'${String(s).replace(/'/g, "''")}'`;
 const reais = (centavos) => (centavos / 100).toFixed(2);
 const idPeca = (slug) => `(select id from public.pecas where slug = ${lit(slug)})`;
@@ -45,11 +47,11 @@ function sqlKit({ slug, titulo, descricao, foto, publicado, ordem, pecaSlugs }) 
 export function gerarSqlExemplo(v) {
   const catSlug = Object.fromEntries(v.categorias.map((c) => [c.id, c.slug]));
   const grade = Object.fromEntries(v.categorias.map((c) => [c.id, c.grade]));
-  const slugPeca = Object.fromEntries(v.pecas.map((p) => [p.id, p.slug]));
+  const slugPeca = Object.fromEntries(v.pecas.map((p) => [p.id, ex(p.slug)]));
   const camisetas = v.categorias.find((c) => c.slug === 'camisetas');
 
   const pecas = v.pecas.map((p) => ({
-    slug: p.slug,
+    slug: ex(p.slug),
     nome: p.nome,
     categoriaSlug: catSlug[p.categoriaId],
     descricao: p.descricao,
@@ -67,7 +69,7 @@ export function gerarSqlExemplo(v) {
   );
 
   const kits = v.kits.map((k) => ({
-    slug: k.slug,
+    slug: ex(k.slug),
     titulo: k.titulo,
     descricao: k.descricao,
     foto: k.foto,

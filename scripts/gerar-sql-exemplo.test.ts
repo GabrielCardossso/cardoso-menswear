@@ -19,7 +19,7 @@ describe('gerarSqlExemplo', () => {
   });
 
   it('preço em reais com duas casas e categoria pelo slug', () => {
-    expect(carregar).toContain("'camisa-dry-fit-nk-preta'");
+    expect(carregar).toContain("'exemplo-camisa-dry-fit-nk-preta'");
     expect(carregar).toContain('89.90');
     expect(carregar).toContain("(select id from public.categorias where slug = 'camisetas')");
   });
@@ -42,5 +42,14 @@ describe('gerarSqlExemplo', () => {
     expect(limpar).not.toMatch(/\btruncate\b/i);
     // As 5 categorias reais nunca são apagadas.
     for (const c of exemplo.categorias) expect(limpar).not.toContain(`'${c.slug}'`);
+  });
+});
+
+describe('gerarSqlExemplo: slugs de exemplo', () => {
+  it('toda peça e todo kit de exemplo tem slug começando com "exemplo-"', () => {
+    const slugs = [...carregar.matchAll(/insert into public\.(?:pecas|kits)\s*\([^)]*\)\s*values\s*\(\s*'([^']+)'/gi)].map((m) => m[1]);
+    expect(slugs.length).toBe(19);
+    for (const s of slugs) expect(s).toMatch(/^exemplo-/);
+    expect(limpar).not.toContain("'camisa-dry-fit-nk-preta'");
   });
 });

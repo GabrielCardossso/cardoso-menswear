@@ -14,7 +14,8 @@ export default defineConfig({
     ...(executablePath ? { launchOptions: { executablePath } } : {}),
   },
   webServer: {
-    command: 'npm run build && npx vite preview --port 4173 --strictPort',
+    // --mode e2e: o site usa o JSON de exemplo, nunca o Supabase de produção.
+    command: 'npx tsc -b && npx vite build --mode e2e && npx vite preview --port 4173 --strictPort',
     url: 'http://localhost:4173',
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
