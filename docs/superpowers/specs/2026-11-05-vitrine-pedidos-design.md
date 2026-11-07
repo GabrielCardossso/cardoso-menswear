@@ -59,7 +59,7 @@ deve ser o mesmo que um dia será gravado como pedido (ver "Sacola").
   O admin tem que funcionar no celular, porque o Gustavo vai cadastrar peça pelo celular.
 - Repositório com duas branches permanentes: `main` (desenvolvimento) e `producao` (o que está no
   ar). Nada vai para `producao` sem estar verificado e sem o aval do Gabriel (ver `.claude/CLAUDE.md`).
-- Contas gratuitas no Supabase e na Vercel, criadas pelo Gabriel.
+- Contas gratuitas no Supabase e na Cloudflare, criadas pelo Gabriel (a Vercel gratuita não permite uso comercial; troca decidida em 2026-11-07).
 - LGPD: o site não guarda dado de cliente. Nome, bairro, CEP e cidade só existem no navegador do
   cliente e na mensagem que ele mesmo envia. O único dado pessoal no banco é o e-mail do admin.
 
@@ -67,7 +67,7 @@ deve ser o mesmo que um dia será gravado como pedido (ver "Sacola").
 
 | | Como | Troca |
 |---|---|---|
-| **A (escolhida)** | React + Vite + TypeScript + Tailwind, Supabase (Postgres, Auth, Storage, RLS), Vercel; mais uma função na Vercel para a prévia dos links | Mesma stack da Marisa: dá para reaproveitar login, upload de fotos e padrões do admin. A função cobre o ponto fraco do Vite numa vitrine (prévia de link). |
+| **A (escolhida)** | React + Vite + TypeScript + Tailwind, Supabase (Postgres, Auth, Storage, RLS), Cloudflare Pages (antes: Vercel); mais uma função da Cloudflare para a prévia dos links | Mesma stack da Marisa: dá para reaproveitar login, upload de fotos e padrões do admin. A função cobre o ponto fraco do Vite numa vitrine (prévia de link). |
 | B | Next.js + Supabase na Vercel, páginas montadas no servidor | Prévia de link e Google de fábrica, mas stack diferente da Marisa e mais complexa para algumas centenas de peças. |
 | C | Plataforma pronta (Nuvemshop, Shopify) com botão de WhatsApp | Sem código, mas com mensalidade, visual de modelo e o WhatsApp como adaptação. |
 
@@ -248,7 +248,7 @@ Segurança (RLS em todas as tabelas):
 
 - Links `/p/:slug` e `/k/:slug` respondem com o `index.html` já com `og:title` (nome), `og:description`
   (preço e tamanhos disponíveis, ou "N peças · R$ total" no kit) e `og:image` (primeira foto ou foto
-  do kit), lidos do Supabase por uma função da Vercel. O resto do site é o app normal.
+  do kit), lidos do Supabase por uma função da Cloudflare Pages (`functions/`). O resto do site é o app normal.
 - Início e categorias usam uma prévia fixa com a logo (`cardoso-logo-avatar.png`) e "Moda masculina ·
   Capivari de Baixo, SC".
 - Se a função falhar, devolve o `index.html` com a prévia fixa (o site nunca deixa de abrir por causa
@@ -277,8 +277,11 @@ Segurança (RLS em todas as tabelas):
 
 - Pastas por responsabilidade: `src/components`, `src/pages` (cliente), `src/admin`, `src/hooks`,
   `src/services` (Supabase), `src/lib` (dinheiro, sacola, mensagem), `src/types`, `public/`,
-  `api/` (função da prévia). Criar só o que cada etapa precisa.
-- Vercel ligada ao repositório: produção = branch `producao`; cada push na `main` gera link de teste.
+  `functions/` (função da prévia, Cloudflare Pages). Criar só o que cada etapa precisa.
+- **Cloudflare Pages** ligada ao repositório (decisão do Gabriel em 2026-11-07, mesmo caminho da
+  Marisa): produção = branch `producao`; a `main` gera o link de teste `main.<projeto>.pages.dev`.
+  Endereço gratuito `.pages.dev` por enquanto. Variáveis `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`
+  (só a publicável) e `NODE_VERSION`. Painel da Cloudflare pelo Edge do Gabriel, conferindo a conta.
 - **Um projeto Supabase só** (decisão do Gabriel em 2026-11-05, para não ocupar as 2 vagas gratuitas):
   `cardoso-menswear`, referência `gbhbzntuuysswbsptqgi`, região São Paulo (`sa-east-1`), na conta
   pessoal "GabrielCardossso's Org" (não na organização da empresa). Criado com tabelas novas não
@@ -287,8 +290,9 @@ Segurança (RLS em todas as tabelas):
 - Migrações em `supabase/migrations/` no repositório. Elas chegam ao banco pela integração do Supabase
   com o GitHub, com "deploy to production" apontado para a branch **`main`** (decisão do Gabriel em
   2026-11-05): com um banco só, a migração precisa estar no banco para ser testada antes da aprovação
-  do código na `producao`. Por isso as migrações só acrescentam (nada de apagar ou renomear). **Rever
-  antes de publicar o site:** um segundo projeto, aplicar pela `producao` ou manter pela `main`. Sem
+  do código na `producao`. Por isso as migrações só acrescentam (nada de apagar ou renomear). **Revisto
+  na publicação (2026-11-07) e mantido pela `main`:** como só acrescentam, o site no ar segue
+  funcionando com o banco já migrado, e o link de teste da `main` funciona com o banco novo. Sem
   token da CLI no ambiente do Claude.
 - Painel e configurações do Supabase são acessados pelo Edge do Gabriel (extensão Claude in Chrome),
   conferindo a conta antes de agir.
@@ -301,7 +305,7 @@ Segurança (RLS em todas as tabelas):
    copiar mensagem.
 3. **Supabase**: esquema, RLS, Storage, carga inicial a partir do JSON, conferência ao enviar.
 4. **Painel administrativo**: login, visão geral, peças, kits, categorias, configurações, fotos.
-5. **Prévia dos links e publicação**: função da prévia, Vercel, conta de produção.
+5. **Prévia dos links e publicação**: função da prévia, Cloudflare Pages, conta de produção.
 
 Cada etapa termina funcionando e verificada na `main`; a ida para `producao` é decisão do Gabriel.
 
@@ -325,4 +329,4 @@ função da prévia. Tudo dentro das decisões acima.
 - Número de WhatsApp do Gustavo para os pedidos (o link da bio é de grupo, não serve para `wa.me`).
 - Catálogo real: preços, tamanhos e quais peças entram. A etapa 1 usa exemplos.
 - Grades de tamanho de calça e tênis: confirmar com o Gustavo.
-- Domínio próprio: por enquanto, endereço gratuito da Vercel.
+- Domínio próprio: por enquanto, endereço gratuito `.pages.dev` da Cloudflare.
