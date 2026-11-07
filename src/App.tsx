@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import Layout from './components/Layout';
 import Inicio from './pages/Inicio';
@@ -33,14 +34,32 @@ export function Rotas() {
 // Criada uma vez: Supabase se houver ambiente; senão o JSON de exemplo (só fora do build de produção).
 const fonte = escolherFonte(import.meta.env);
 
+// O painel é baixado só em /admin, e fica fora da vitrine e da sacola.
+const AdminApp = lazy(() => import('./admin/AdminApp'));
+
 export default function App() {
   return (
     <BrowserRouter>
-      <VitrineProvider fonte={fonte}>
-        <SacolaProvider>
-          <Rotas />
-        </SacolaProvider>
-      </VitrineProvider>
+      <Routes>
+        <Route
+          path="/admin/*"
+          element={
+            <Suspense fallback={null}>
+              <AdminApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <VitrineProvider fonte={fonte}>
+              <SacolaProvider>
+                <Rotas />
+              </SacolaProvider>
+            </VitrineProvider>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }

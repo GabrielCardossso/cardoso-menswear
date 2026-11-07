@@ -25,6 +25,21 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* O Tailwind 4 deixa o cursor padrão nos botões; no mouse, tudo que é clicável mostra a mãozinha. */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+[role="switch"],
+select,
+summary,
+label:has(input[type="checkbox"], input[type="radio"]),
+input[type="file"] {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-branco);
   outline-offset: 2px;
